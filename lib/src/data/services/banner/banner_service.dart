@@ -11,14 +11,17 @@ class BannerService {
 
       final Map<String, dynamic> requestBody = {
         "componentConfig": {
-          "moduleName": "Header Settings",
-          "aspectType": "headerSettings",
-          "query": {"aspectType": "headerSettings"},
+          "moduleName": "Banner Images",
+          "aspectType": "bannerImages",
+          "query": {
+            "aspectType": "bannerImages",
+            "status": "ACTIVE"
+          },
           "productID": "62c807133d9ee4045ab78d4d",
           "clientID": "636109798c12b64690508d12",
           "skip": 0,
-          "next": 1220,
-        },
+          "next": 1220
+        }
       };
 
       final response = await http.post(
