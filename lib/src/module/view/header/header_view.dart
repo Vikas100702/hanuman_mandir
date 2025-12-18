@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hanuman_mandir/src/data/services/header/header_service.dart';
-import 'package:hanuman_mandir/src/module/controller/header_controller.dart';
-import 'package:hanuman_mandir/src/module/model/header_model.dart';
+import 'package:hanuman_mandir/src/module/controller/header/header_controller.dart';
+import 'package:hanuman_mandir/src/module/model/header/header_model.dart';
 
 class HeaderView extends StatelessWidget {
   const HeaderView({super.key});
@@ -93,9 +93,9 @@ class HeaderView extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        _buildLogo("assets/left_image.png", size: 130),
+        _buildLogo("assets/images/left_header_logo.png", size: 130),
         Expanded(child: _buildTextContent(data, isMobile: false)),
-        _buildLogo("assets/right_image.png", size: 130),
+        _buildLogo("assets/images/right_header_logo.png", size: 130),
       ],
     );
   }
@@ -107,9 +107,9 @@ class HeaderView extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _buildLogo("assets/left_image.png", size: 70),
+            _buildLogo("assets/images/left_header_logo.png", size: 70),
             const SizedBox(width: 20),
-            _buildLogo("assets/right_image.png", size: 70),
+            _buildLogo("assets/images/right_header_logo.png", size: 70),
           ],
         ),
         const SizedBox(height: 15),
