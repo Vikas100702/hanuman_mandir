@@ -1,14 +1,14 @@
 import 'dart:convert';
 
 import 'package:hanuman_mandir/src/core/const/endpoints/endpoints.dart';
-import 'package:hanuman_mandir/src/module/model/header_model.dart';
+import 'package:hanuman_mandir/src/module/model/header/header_model.dart';
 import 'package:http/http.dart' as http;
 
 class HeaderService {
 
-  Future<HeaderModel?> fetchHeaderSettingsData() async {
+  Future<HeaderModel?> fetchHeaderServiceData() async {
     try {
-      final Uri url = Uri.parse(Endpoints.headerUrl);
+      final Uri url = Uri.parse(Endpoints.baseUrl);
 
       final Map<String, dynamic> requestBody = {
         "componentConfig": {
