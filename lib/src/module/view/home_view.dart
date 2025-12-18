@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hanuman_mandir/src/module/view/banner/banner_view.dart';
 
 import 'header/header_view.dart';
 
@@ -8,15 +9,12 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Hanuman Mandir"),
-        backgroundColor: Colors.orange,
-      ),
       body: const SingleChildScrollView(
         child: Column(
           children: [
             // Just call the Header Module here
             HeaderView(),
+            BannerView(),
 
             // You can add other modules here in the future
             // Example: SliderView(),
