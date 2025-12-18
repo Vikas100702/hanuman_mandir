@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hanuman_mandir/src/module/view/header/header_view.dart';
+import 'package:hanuman_mandir/src/module/view/home_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const HeaderView(),
+      home: const HomeView(),
     );
   }
 }
