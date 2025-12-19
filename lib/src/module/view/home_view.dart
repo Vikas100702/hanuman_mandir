@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hanuman_mandir/src/module/view/banner/banner_view.dart';
+import 'package:hanuman_mandir/src/module/view/footer/footer_view.dart';
 
 import 'header/header_view.dart';
 
@@ -15,6 +16,7 @@ class HomeView extends StatelessWidget {
             // Just call the Header Module here
             HeaderView(),
             BannerView(),
+            FooterView(),
 
             // You can add other modules here in the future
             // Example: SliderView(),
