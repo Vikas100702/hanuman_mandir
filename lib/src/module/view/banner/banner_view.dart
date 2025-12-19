@@ -102,7 +102,7 @@ class BannerView extends StatelessWidget {
                           ),
                           width: double.infinity,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -124,7 +124,7 @@ class BannerView extends StatelessWidget {
                                 Center(child: Image.asset("assets/images/border.png")),
                                 const SizedBox(height: 15),
                                 Text(
-                                  data.bannerSubHeading ?? "",
+                                  "${data.bannerSubHeading ?? ""}\n",
                                   textAlign: TextAlign.left,
                                   style: const TextStyle(
                                     fontFamily: 'serif',
