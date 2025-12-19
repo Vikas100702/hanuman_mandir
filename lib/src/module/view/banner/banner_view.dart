@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:hanuman_mandir/src/core/const/endpoints/endpoints.dart';
 import 'package:hanuman_mandir/src/core/utils/style_extension.dart';
 import 'package:hanuman_mandir/src/data/services/banner/banner_service.dart';
 import 'package:hanuman_mandir/src/module/controller/banner/banner_controller.dart';
 import 'package:hanuman_mandir/src/module/model/banner/banner_model.dart';
+import 'package:image_network/image_network.dart';
 
 class BannerView extends StatelessWidget {
   const BannerView({super.key});
@@ -32,13 +34,11 @@ class BannerView extends StatelessWidget {
           // Breakpoint for mobile/tablet vs desktop
           bool isMobile = constraints.maxWidth < 900;
 
-          // Calculate mobile height (e.g., 75-80% of screen height for a full experience)
+          // Calculate mobile height
           double mobileHeight = MediaQuery.of(context).size.height * 0.75;
 
           return CarouselSlider(
             options: CarouselOptions(
-              // Fix: On mobile, use a specific height so Expanded works correctly.
-              // If height is null, it relies on aspect ratio which might be too short for text.
               height: isMobile ? mobileHeight : 450,
               viewportFraction: 1.0,
               autoPlay: true,
@@ -48,8 +48,7 @@ class BannerView extends StatelessWidget {
               autoPlayCurve: Curves.fastOutSlowIn,
             ),
             items: bannerController.bannerDataList.map((Datum data) {
-              String fileName = data.refDataName?.split('/').last ?? '';
-              String assetPath = "assets/images/$fileName";
+              String imageUrl = "${Endpoints.globalUrl}${data.refDataName}";
 
               String cleanDescription = (data.bannerDesc ?? "").removeHtmlTags();
               String cleanHeading = (data.bannerHeading ?? "").replaceBackslash();
@@ -57,18 +56,24 @@ class BannerView extends StatelessWidget {
               return Builder(
                 builder: (BuildContext context) {
                   return data.bannerType == "ONLY IMAGE"
-                      ? SizedBox(
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: Image.asset(
-                      assetPath,
-                      fit: BoxFit.fill,
-                      errorBuilder: (context, error, stackTrace) {
-                        return const Center(
-                          child: Icon(Icons.error, color: Colors.red),
-                        );
-                      },
-                    ),
+                      ? LayoutBuilder(
+                    builder: (context, constraints) {
+                      return ImageNetwork(
+                        image: imageUrl,
+                        // Use specific constraints instead of double.infinity
+                        width: constraints.maxWidth,
+                        height: constraints.maxHeight,
+                        fitAndroidIos: BoxFit.fill,
+                        fitWeb: BoxFitWeb.fill,
+                        onLoading: const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        onError: const Icon(
+                          Icons.error,
+                          color: Colors.red,
+                        ),
+                      );
+                    },
                   )
                       : !isMobile
                   // ---------------- DESKTOP LAYOUT ----------------
@@ -76,17 +81,28 @@ class BannerView extends StatelessWidget {
                     children: [
                       Expanded(
                         flex: 1,
-                        child: SizedBox(
-                          width: double.infinity,
-                          height: double.infinity,
-                          child: Image.asset(
-                            assetPath,
-                            fit: BoxFit.fill,
-                            errorBuilder: (context, error, stackTrace) {
-                              return const Center(
-                                  child: Icon(Icons.error, color: Colors.red));
-                            },
-                          ),
+                        child: LayoutBuilder(
+                          builder: (context, constraints) {
+                            return SizedBox(
+                              width: constraints.maxWidth,
+                              height: constraints.maxHeight,
+                              child: ImageNetwork(
+                                image: imageUrl,
+                                // Use specific constraints
+                                width: constraints.maxWidth,
+                                height: constraints.maxHeight,
+                                fitAndroidIos: BoxFit.fill,
+                                fitWeb: BoxFitWeb.fill,
+                                onLoading: const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                                onError: const Icon(
+                                  Icons.error,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       ),
                       Expanded(
@@ -97,15 +113,22 @@ class BannerView extends StatelessWidget {
                             image: DecorationImage(
                               fit: BoxFit.fill,
                               opacity: 0.8,
-                              image: AssetImage("assets/images/banner_bg.png"),
+                              image: AssetImage(
+                                "assets/images/banner_bg.png",
+                              ),
                             ),
                           ),
                           width: double.infinity,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 40,
+                            ),
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              mainAxisAlignment:
+                              MainAxisAlignment.center,
                               children: [
                                 Center(
                                   child: Text(
@@ -121,7 +144,11 @@ class BannerView extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(height: 5),
-                                Center(child: Image.asset("assets/images/border.png")),
+                                Center(
+                                  child: Image.asset(
+                                    "assets/images/border.png",
+                                  ),
+                                ),
                                 const SizedBox(height: 15),
                                 Text(
                                   "${data.bannerSubHeading ?? ""}\n",
@@ -142,7 +169,7 @@ class BannerView extends StatelessWidget {
                                       style: const TextStyle(
                                         fontFamily: 'serif',
                                         color: Color(0xFF000000),
-                                        fontSize: 18, // Reduced slightly for better fit
+                                        fontSize: 18,
                                       ),
                                     ),
                                   ),
@@ -158,18 +185,27 @@ class BannerView extends StatelessWidget {
                       : Column(
                     children: [
                       // 1. IMAGE SECTION
-                      // Use AspectRatio to keep deity image correct (not stretched)
                       AspectRatio(
                         aspectRatio: 16 / 9,
                         child: Container(
                           width: double.infinity,
-                          color: Colors.black12, // Placeholder bg
-                          child: Image.asset(
-                            assetPath,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return const Center(
-                                child: Icon(Icons.error, color: Colors.red),
+                          color: Colors.black12,
+                          child: LayoutBuilder(
+                            builder: (context, constraints) {
+                              return ImageNetwork(
+                                image: imageUrl,
+                                // Use specific constraints
+                                width: constraints.maxWidth,
+                                height: constraints.maxHeight,
+                                fitAndroidIos: BoxFit.cover,
+                                fitWeb: BoxFitWeb.cover,
+                                onLoading: const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                                onError: const Icon(
+                                  Icons.error,
+                                  color: Colors.red,
+                                ),
                               );
                             },
                           ),
@@ -177,7 +213,6 @@ class BannerView extends StatelessWidget {
                       ),
 
                       // 2. TEXT SECTION
-                      // Expanded makes this fill ALL remaining vertical space
                       Expanded(
                         child: Container(
                           width: double.infinity,
@@ -185,13 +220,20 @@ class BannerView extends StatelessWidget {
                             image: DecorationImage(
                               fit: BoxFit.cover,
                               opacity: 0.8,
-                              image: AssetImage("assets/images/banner_bg.png"),
+                              image: AssetImage(
+                                "assets/images/banner_bg.png",
+                              ),
                             ),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20.0,
+                            ),
                             child: ListView(
-                              padding: const EdgeInsets.only(top: 20, bottom: 20),
+                              padding: const EdgeInsets.only(
+                                top: 20,
+                                bottom: 20,
+                              ),
                               shrinkWrap: true,
                               children: [
                                 Center(
@@ -201,18 +243,25 @@ class BannerView extends StatelessWidget {
                                     style: const TextStyle(
                                       fontFamily: 'serif',
                                       color: Color(0xFF44233B),
-                                      fontSize: 28, // Slightly smaller for mobile
+                                      fontSize: 28,
                                       fontWeight: FontWeight.bold,
                                       height: 1.0,
                                     ),
                                   ),
                                 ),
                                 const SizedBox(height: 5),
-                                Center(child: Image.asset("assets/images/border.png")),
+                                Center(
+                                  child: Image.asset(
+                                    "assets/images/border.png",
+                                  ),
+                                ),
                                 const SizedBox(height: 15),
-                                if (data.bannerSubHeading != null && data.bannerSubHeading!.isNotEmpty)
+                                if (data.bannerSubHeading != null &&
+                                    data.bannerSubHeading!.isNotEmpty)
                                   Padding(
-                                    padding: const EdgeInsets.only(bottom: 8.0),
+                                    padding: const EdgeInsets.only(
+                                      bottom: 8.0,
+                                    ),
                                     child: Text(
                                       "${data.bannerSubHeading ?? ""}\n",
                                       textAlign: TextAlign.left,
@@ -226,7 +275,7 @@ class BannerView extends StatelessWidget {
                                   ),
                                 Text(
                                   cleanDescription,
-                                  textAlign: TextAlign.justify, // Center align looks better on mobile vertical flow
+                                  textAlign: TextAlign.justify,
                                   style: const TextStyle(
                                     fontFamily: 'serif',
                                     color: Color(0xFF000000),
