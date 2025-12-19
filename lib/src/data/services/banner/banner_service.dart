@@ -36,11 +36,11 @@ class BannerService {
         return BannerModel.fromJson(jsonResponse);
       } else {
         throw Exception(
-          "Error: Failed to load header settings. Status Code: ${response.statusCode}",
+          "Error: Failed to load Banner settings. Status Code: ${response.statusCode}",
         );
       }
     } catch (e) {
-      throw Exception("Exception in Header Settings: $e");
+      throw Exception("Exception in Banner Settings: $e");
     }
   }
 }
