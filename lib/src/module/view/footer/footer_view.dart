@@ -1,7 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hanuman_mandir/src/data/services/footer/footer_service.dart';
+import 'package:hanuman_mandir/src/data/services/header/header_service.dart';
 import 'package:hanuman_mandir/src/module/controller/footer/footer_controller.dart';
+import 'package:hanuman_mandir/src/module/controller/header/header_controller.dart';
 import 'package:hanuman_mandir/src/module/model/footer/footer_model.dart';
 import 'package:hanuman_mandir/src/module/view/footer/widgets/footer_widgets.dart';
 
@@ -14,6 +18,11 @@ class FooterView extends StatelessWidget {
       FooterController(footerService: FooterService()),
     );
 
+    // Retrieve the existing HeaderController to access the logo
+    final HeaderController headerController = Get.isRegistered<HeaderController>()
+        ? Get.find<HeaderController>()
+        : Get.put(HeaderController(headerService: HeaderService()));
+
     return Obx(() {
       if (footerController.isLoading.value) {
         return const SizedBox(
@@ -25,6 +34,11 @@ class FooterView extends StatelessWidget {
       Datum? footerData;
       if (footerController.footerDataList.isNotEmpty) {
         footerData = footerController.footerDataList.first;
+      }
+
+      String? logoUrl;
+      if(headerController.headerDataList.isNotEmpty) {
+        logoUrl = headerController.headerDataList.first.leftImage;
       }
 
       return LayoutBuilder(
@@ -40,10 +54,10 @@ class FooterView extends StatelessWidget {
                 ? Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              // FIX: Using named arguments matches the static method definition
               children: FooterWidgets.buildFooterContent(
                 isDesktop: true,
                 data: footerData,
+                logoUrl: logoUrl,
               ),
             )
                 : Column(
@@ -53,6 +67,7 @@ class FooterView extends StatelessWidget {
                 ...FooterWidgets.buildFooterContent(
                   isDesktop: false,
                   data: footerData,
+                  logoUrl: logoUrl,
                 ).map((widget) => Padding(
                   padding: const EdgeInsets.only(bottom: 40),
                   child: widget,

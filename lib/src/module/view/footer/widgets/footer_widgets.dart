@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hanuman_mandir/src/core/const/endpoints/endpoints.dart';
 import 'package:hanuman_mandir/src/module/model/footer/footer_model.dart';
 import 'package:hanuman_mandir/src/module/view/footer/widgets/footer_audio_player.dart';
+import 'package:image_network/image_network.dart';
 
 class FooterWidgets {
   // Custom Yellow Underline
@@ -17,6 +19,7 @@ class FooterWidgets {
   static List<Widget> buildFooterContent({
     required bool isDesktop,
     Datum? data,
+    String? logoUrl,
   }) {
     return [
       // 1. LOGO & AUDIO SECTION
@@ -26,7 +29,7 @@ class FooterWidgets {
             height: 150,
             width: 150,
             margin: const EdgeInsets.only(bottom: 20),
-            child: Image.asset(
+            child: (logoUrl != null && logoUrl.isNotEmpty) ? ImageNetwork(image: "${Endpoints.globalUrl}$logoUrl", height: 150, width: 150, fitAndroidIos: .contain,) :Image.asset(
               "assets/images/left_header_logo.png",
               fit: BoxFit.contain,
               errorBuilder: (context, error, stackTrace) {
