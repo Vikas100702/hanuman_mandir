@@ -1,9 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cached_network_image_platform_interface/cached_network_image_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hanuman_mandir/src/core/const/endpoints/endpoints.dart';
 import 'package:hanuman_mandir/src/data/services/header/header_service.dart';
 import 'package:hanuman_mandir/src/module/controller/header/header_controller.dart';
 import 'package:hanuman_mandir/src/module/model/header/header_model.dart';
+import 'package:image_network/image_network.dart';
 
 class HeaderView extends StatelessWidget {
   const HeaderView({super.key});
@@ -29,63 +32,70 @@ class HeaderView extends StatelessWidget {
 
       final Datum data = headerController.headerDataList.first;
 
-      return LayoutBuilder(builder: (context, constraints) {
-        // Define a breakpoint for mobile/tablet vs desktop
-        bool isMobile = constraints.maxWidth < 900;
+      return LayoutBuilder(
+        builder: (context, constraints) {
+          // Define a breakpoint for mobile/tablet vs desktop
+          bool isMobile = constraints.maxWidth < 900;
 
-        return Column(
-          children: [
-            // PART 1: MAIN HEADER (Logos + Text)
-            Material(
-              color: const Color(0xFFA0252A),
-              child: Column(
-                children: [
-                  Container(
-                    height: isMobile ? 20 : 35,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Colors.red.shade900,
-                      border: const Border(
-                        bottom: BorderSide(
-                          color: Color(0xFFFFD700), // Gold line
-                          width: 1.5,
+          return Column(
+            children: [
+              // PART 1: MAIN HEADER (Logos + Text)
+              Material(
+                color: const Color(0xFFA0252A),
+                child: Column(
+                  children: [
+                    Container(
+                      height: isMobile ? 20 : 35,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.red.shade900,
+                        border: const Border(
+                          bottom: BorderSide(
+                            color: Color(0xFFFFD700), // Gold line
+                            width: 1.5,
+                          ),
                         ),
                       ),
                     ),
-                  ),
 
-                  // --- Content Area ---
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                        vertical: isMobile ? 15 : 20, horizontal: 16),
-                    child: Center(
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 1400),
-                        child: isMobile
-                            ? _buildMobileHeaderLayout(data)
-                            : _buildDesktopHeaderLayout(data),
+                    // --- Content Area ---
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        vertical: isMobile ? 15 : 20,
+                        horizontal: 16,
+                      ),
+                      child: Center(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 1400),
+                          child: isMobile
+                              ? _buildMobileHeaderLayout(data)
+                              : _buildDesktopHeaderLayout(data),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
 
-            // PART 2: MENU BAR
-            Material(
-              color: const Color(0xFF7D1456),
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
-                // Switch between Mobile (Hamburger) and Desktop (Row)
-                child: isMobile
-                    ? _buildMobileMenuBar()
-                    : _buildDesktopMenuBar(),
+              // PART 2: MENU BAR
+              Material(
+                color: const Color(0xFF7D1456),
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 0,
+                    horizontal: 8,
+                  ),
+                  // Switch between Mobile (Hamburger) and Desktop (Row)
+                  child: isMobile
+                      ? _buildMobileMenuBar()
+                      : _buildDesktopMenuBar(),
+                ),
               ),
-            ),
-          ],
-        );
-      });
+            ],
+          );
+        },
+      );
     });
   }
 
@@ -180,13 +190,20 @@ class HeaderView extends StatelessWidget {
           children: [
             if (data.phone != null)
               _buildContactItem(
-                  Icons.phone, "+1 ${data.phone}", normalSize, iconSize),
+                Icons.phone,
+                "+1 ${data.phone}",
+                normalSize,
+                iconSize,
+              ),
             if (data.phoneNo != null)
-              _buildContactItem(Icons.smartphone, "+1 ${data.phoneNo}",
-                  normalSize, iconSize),
-            if (data.email != null)
               _buildContactItem(
-                  Icons.email, data.email!, normalSize, iconSize),
+                Icons.smartphone,
+                "+1 ${data.phoneNo}",
+                normalSize,
+                iconSize,
+              ),
+            if (data.email != null)
+              _buildContactItem(Icons.email, data.email!, normalSize, iconSize),
           ],
         ),
         const SizedBox(height: 10),
@@ -269,11 +286,12 @@ class HeaderView extends StatelessWidget {
             children: [
               // Close Handle
               Container(
-                width: 40, height: 4,
+                width: 40,
+                height: 4,
                 margin: const EdgeInsets.only(bottom: 20),
                 decoration: BoxDecoration(
-                    color: Colors.white30,
-                    borderRadius: BorderRadius.circular(2)
+                  color: Colors.white30,
+                  borderRadius: BorderRadius.circular(2),
                 ),
               ),
 
@@ -308,7 +326,11 @@ class HeaderView extends StatelessWidget {
   }
 
   // --- Desktop Menu Item ---
-  Widget _buildDesktopMenuItem(String title, {bool isActive = false, bool hasDropDown = false}) {
+  Widget _buildDesktopMenuItem(
+    String title, {
+    bool isActive = false,
+    bool hasDropDown = false,
+  }) {
     return Container(
       color: isActive ? const Color(0xFFFFFFFF) : Colors.transparent,
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
@@ -318,7 +340,9 @@ class HeaderView extends StatelessWidget {
           Text(
             title,
             style: TextStyle(
-              color: isActive ? const Color(0xFFC00000) : const Color(0xFFFFFFFF),
+              color: isActive
+                  ? const Color(0xFFC00000)
+                  : const Color(0xFFFFFFFF),
               fontWeight: FontWeight.bold,
               fontSize: 15.0,
             ),
@@ -327,7 +351,9 @@ class HeaderView extends StatelessWidget {
             const SizedBox(width: 2),
             Icon(
               Icons.arrow_drop_down,
-              color: isActive ? const Color(0xFFC00000) : const Color(0xFFFFFFFF),
+              color: isActive
+                  ? const Color(0xFFC00000)
+                  : const Color(0xFFFFFFFF),
               size: 15.0,
             ),
           ],
@@ -357,7 +383,8 @@ class HeaderView extends StatelessWidget {
   // --- Mobile Expansion Tile ---
   Widget _buildMobileExpansionTile(String title) {
     return Theme(
-      data: ThemeData(dividerColor: Colors.transparent), // Hide internal borders
+      data: ThemeData(dividerColor: Colors.transparent),
+      // Hide internal borders
       child: ExpansionTile(
         title: Text(
           title,
@@ -373,12 +400,18 @@ class HeaderView extends StatelessWidget {
         children: [
           // Placeholder sub-items
           ListTile(
-            title: const Text("Option 1", style: TextStyle(color: Colors.white70)),
+            title: const Text(
+              "Option 1",
+              style: TextStyle(color: Colors.white70),
+            ),
             onTap: () => Get.back(),
             contentPadding: const EdgeInsets.only(left: 40),
           ),
           ListTile(
-            title: const Text("Option 2", style: TextStyle(color: Colors.white70)),
+            title: const Text(
+              "Option 2",
+              style: TextStyle(color: Colors.white70),
+            ),
             onTap: () => Get.back(),
             contentPadding: const EdgeInsets.only(left: 40),
           ),
@@ -406,7 +439,7 @@ class HeaderView extends StatelessWidget {
               fontWeight: FontWeight.bold,
               fontSize: isMobile ? 18 : 20,
             ),
-          )
+          ),
         ],
       ),
     );
@@ -417,6 +450,7 @@ class HeaderView extends StatelessWidget {
     if (imagePath == null || imagePath.isEmpty) {
       return SizedBox(width: size, height: size);
     }
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Container(
@@ -426,11 +460,6 @@ class HeaderView extends StatelessWidget {
           shape: BoxShape.circle,
           color: Colors.white,
           border: Border.all(color: const Color(0xFFFFD700), width: 2),
-          image: DecorationImage(
-            image: NetworkImage(imagePath),
-            // image: AssetImage(imagePath),
-            fit: BoxFit.contain,
-          ),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.2),
@@ -439,12 +468,37 @@ class HeaderView extends StatelessWidget {
             ),
           ],
         ),
+        // Use ImageNetwork which handles CORS and Circular Clipping via CSS
+        child: ImageNetwork(
+          image: imagePath,
+          height: size,
+          width: size,
+          duration: 0, // No animation to prevent flickering
+          fitAndroidIos: BoxFit.contain,
+          fitWeb: BoxFitWeb.contain,
+
+          // This applies CSS 'border-radius: 50%' on Web
+          borderRadius: BorderRadius.circular(size),
+
+          onLoading: const CircularProgressIndicator(
+            color: Color(0xFFFFD700),
+          ),
+          onError: const Icon(
+            Icons.error,
+            color: Colors.red,
+          ),
+        ),
       ),
     );
   }
 
   // --- Contact Item Builder ---
-  Widget _buildContactItem(IconData icon, String text, double fontSize, double iconSize) {
+  Widget _buildContactItem(
+    IconData icon,
+    String text,
+    double fontSize,
+    double iconSize,
+  ) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
