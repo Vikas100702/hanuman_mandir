@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hanuman_mandir/src/core/const/endpoints/endpoints.dart';
 import 'package:hanuman_mandir/src/data/services/header/header_service.dart';
 import 'package:hanuman_mandir/src/module/controller/header/header_controller.dart';
 import 'package:hanuman_mandir/src/module/model/header/header_model.dart';
@@ -93,9 +94,11 @@ class HeaderView extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        _buildLogo("assets/images/left_header_logo.png", size: 130),
+        _buildLogo("${Endpoints.globalUrl}${data.leftImage}", size: 130),
+        // _buildLogo("assets/images/left_header_logo.png", size: 130),
         Expanded(child: _buildTextContent(data, isMobile: false)),
-        _buildLogo("assets/images/right_header_logo.png", size: 130),
+        _buildLogo("${Endpoints.globalUrl}${data.rightImage}", size: 130),
+        // _buildLogo("assets/images/right_header_logo.png", size: 130),
       ],
     );
   }
@@ -107,8 +110,10 @@ class HeaderView extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // _buildLogo("${Endpoints.globalUrl}${data.leftImage}", size: 70),
             _buildLogo("assets/images/left_header_logo.png", size: 70),
             const SizedBox(width: 20),
+            // _buildLogo("${Endpoints.globalUrl}${data.rightImage}", size: 70),
             _buildLogo("assets/images/right_header_logo.png", size: 70),
           ],
         ),
@@ -422,7 +427,8 @@ class HeaderView extends StatelessWidget {
           color: Colors.white,
           border: Border.all(color: const Color(0xFFFFD700), width: 2),
           image: DecorationImage(
-            image: AssetImage(imagePath),
+            image: NetworkImage(imagePath),
+            // image: AssetImage(imagePath),
             fit: BoxFit.contain,
           ),
           boxShadow: [
