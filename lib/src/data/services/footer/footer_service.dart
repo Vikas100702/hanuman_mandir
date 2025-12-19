@@ -6,7 +6,7 @@ import 'package:hanuman_mandir/src/core/const/endpoints/endpoints.dart';
 import 'package:hanuman_mandir/src/module/model/footer/footer_model.dart';
 
 class FooterService {
-  Future<FooterModel> fetchFooterServiceData() async {
+  Future<FooterModel?> fetchFooterServiceData() async {
     try {
       final Uri url = Uri.parse(Endpoints.baseUrl);
 

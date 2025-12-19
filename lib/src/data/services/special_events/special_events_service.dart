@@ -5,7 +5,7 @@ import 'package:hanuman_mandir/src/core/const/endpoints/endpoints.dart';
 import 'package:hanuman_mandir/src/module/model/special_events/special_events_model.dart';
 
 class SpecialEventsService {
-  Future<SpecialEventsModel> fetchSpecialEventsServiceData() async {
+  Future<SpecialEventsModel?> fetchSpecialEventsServiceData() async {
     try {
       final Uri url = Uri.parse(Endpoints.baseUrl);
 
