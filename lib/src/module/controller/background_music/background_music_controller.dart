@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:hanuman_mandir/src/data/services/background_music_service/background_music.dart';
+import 'package:hanuman_mandir/src/data/services/background_music_service/background_music_service.dart';
 import 'package:hanuman_mandir/src/module/model/background_music/background_music_model.dart';
 
 class BackgroundMusicController extends GetxController {
