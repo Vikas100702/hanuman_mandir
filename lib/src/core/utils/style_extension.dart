@@ -1,12 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hanuman_mandir/src/core/const/app_colors.dart';
+import 'package:hanuman_mandir/src/core/widgets/responsive_view.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
-extension ResponsiveExt on BuildContext {
+extension UIContentExt on BuildContext {
+  double get screenHeight => MediaQuery.of(this).size.height;
+
+  double get screenWidth => MediaQuery.of(this).size.width;
+
+  // Access TextStyles easily: context.headerStyle
+  TextStyle get headerStyle => GoogleFonts.openSans(
+    fontSize: ResponsiveView.isMobile(this) ? 28 : 40,
+    fontWeight: .bold,
+    color: AppColors.textWhite,
+    shadows: [
+      Shadow(
+        offset: const Offset(2, 2),
+        blurRadius: 3,
+        color: AppColors.shadowDark,
+      ),
+    ],
+  );
+
+  TextStyle get menuTextStyle => GoogleFonts.openSans(
+    fontWeight: .bold,
+    fontSize: 15,
+    color: AppColors.textWhite,
+  );
+}
+
+extension ResponsiveViewExt on BuildContext {
+  bool get isMobile => ResponsiveView.isMobile(this);
+}
+
+/*extension ResponsiveExt on BuildContext {
   /// Returns true if the current running device is a mobile device
   bool get isMobile => MediaQuery.of(this).size.shortestSide < 600;
-}
+}*/
 
 extension IntExt on int {
   String formatAsK() {
@@ -26,6 +58,7 @@ extension IntExt on int {
 
 extension StringExtensions on String {
   String isCapitalizeFirst() {
+    if (isEmpty) return "";
     return "${this[0].toUpperCase()}${this.substring(1)}";
   }
 
@@ -35,7 +68,10 @@ extension StringExtensions on String {
 
   String removeHtmlTags() {
     // 1. Replace common block tags with newlines to preserve formatting
-    String formatted = this.replaceAll(RegExp(r'<br\s*/?>'), "\n").replaceAll(RegExp(r'</p>'), "\n").replaceAll(RegExp(r'</div>'), "\n");
+    String formatted = replaceAll(
+      RegExp(r'<br\s*/?>'),
+      "\n",
+    ).replaceAll(RegExp(r'</p>'), "\n").replaceAll(RegExp(r'</div>'), "\n");
 
     // 2. Remove all remaining HTML tags
     formatted = formatted.replaceAll(RegExp(r'<[^>]*>'), "");
@@ -47,7 +83,7 @@ extension StringExtensions on String {
     return formatted.trim();
   }
 
-  String replaceBackslash(){
+  String replaceBackslash() {
     return this.replaceAll(RegExp(r'\n'), "");
   }
 }
@@ -55,92 +91,102 @@ extension StringExtensions on String {
 extension ThemeExt on BuildContext {
   /// Theme extensions
   TextStyle get titleStyle => GoogleFonts.roboto(
-      color: appColor.blackColor, fontSize: 16.sp, fontWeight: FontWeight.w500);
+    color: appColor.blackColor,
+    fontSize: 16.sp,
+    fontWeight: FontWeight.w500,
+  );
 
   TextStyle get titleStyleRegular => GoogleFonts.roboto(
-      color: appColor.blackColor, fontSize: 19.sp, fontWeight: FontWeight.w600);
+    color: appColor.blackColor,
+    fontSize: 19.sp,
+    fontWeight: FontWeight.w600,
+  );
 
   TextStyle get subTitleStyle => GoogleFonts.roboto(
-        fontWeight: FontWeight.w400,
-        color: appColor.greyColor400,
-        fontSize: 12.sp,
-      );
+    fontWeight: FontWeight.w400,
+    color: appColor.greyColor400,
+    fontSize: 12.sp,
+  );
 
   TextStyle get subTitleTextStyle => GoogleFonts.roboto(
-        fontWeight: FontWeight.w400,
-        color: appColor.blackColor,
-        fontSize: 11.sp,
-      );
+    fontWeight: FontWeight.w400,
+    color: appColor.blackColor,
+    fontSize: 11.sp,
+  );
 
   TextStyle get subTitleTxtStyle => GoogleFonts.roboto(
-        fontWeight: FontWeight.w600,
-        color: appColor.blackColor,
-        fontSize: 12.sp,
-      );
+    fontWeight: FontWeight.w600,
+    color: appColor.blackColor,
+    fontSize: 12.sp,
+  );
 
   TextStyle get bodyTxtStyle => GoogleFonts.roboto(
-      fontSize: 12.sp,
-      fontWeight: FontWeight.w400,
-      color: appColor.greyColor500);
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w400,
+    color: appColor.greyColor500,
+  );
 
   TextStyle get bodyTxtStyleTwo => GoogleFonts.roboto(
-      fontSize: 12.sp,
-      fontWeight: FontWeight.w400,
-      color: appColor.blackColor,
-      decoration: TextDecoration.underline,
-      decorationColor: appColor.primary);
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w400,
+    color: appColor.blackColor,
+    decoration: TextDecoration.underline,
+    decorationColor: appColor.primary,
+  );
 
   TextStyle get textFieldTextStyle => GoogleFonts.roboto(
-      color: appColor.blackColor, fontSize: 16.sp, fontWeight: FontWeight.w500);
+    color: appColor.blackColor,
+    fontSize: 16.sp,
+    fontWeight: FontWeight.w500,
+  );
 
   TextStyle get buttonDeActiveTxtStyle => GoogleFonts.roboto(
-        color: appColor.greyColor500,
-        fontSize: 16.sp,
-        fontWeight: FontWeight.w400,
-      );
+    color: appColor.greyColor500,
+    fontSize: 16.sp,
+    fontWeight: FontWeight.w400,
+  );
 
   TextStyle get buttonActiveTxtStyle => GoogleFonts.roboto(
-        color: appColor.whiteColor,
-        fontSize: 20.sp,
-        fontWeight: FontWeight.w500,
-      );
+    color: appColor.whiteColor,
+    fontSize: 20.sp,
+    fontWeight: FontWeight.w500,
+  );
 
   TextStyle get bottomNavTextStyle => GoogleFonts.roboto(
-        fontSize: 9.sp,
-        color: appColor.blackColor,
-        fontWeight: FontWeight.w500,
-      );
+    fontSize: 9.sp,
+    color: appColor.blackColor,
+    fontWeight: FontWeight.w500,
+  );
 
   TextStyle get headingTextStyle => GoogleFonts.roboto(
-        fontSize: 20.sp,
-        color: appColor.blackColor,
-        fontWeight: FontWeight.w500,
-      );
+    fontSize: 20.sp,
+    color: appColor.blackColor,
+    fontWeight: FontWeight.w500,
+  );
 
   TextStyle get mainHeadingTextStyle => GoogleFonts.roboto(
-        fontSize: 24.sp,
-        color: appColor.blackColor,
-        fontWeight: FontWeight.w600,
-      );
+    fontSize: 24.sp,
+    color: appColor.blackColor,
+    fontWeight: FontWeight.w600,
+  );
 
   BoxDecoration get boxDecorationStyle => BoxDecoration(
-      border: Border.all(
-        color: Colors.grey.shade300,
-        width: 1.5,
-      ),
-      borderRadius: const BorderRadius.all(Radius.circular(10)));
+    border: Border.all(color: Colors.grey.shade300, width: 1.5),
+    borderRadius: const BorderRadius.all(Radius.circular(10)),
+  );
 
   BoxDecoration get defaultDecoration => BoxDecoration(
-        color: appColor.cardColor,
-        borderRadius: BorderRadius.circular(10.r),
-        boxShadow: [
-          BoxShadow(
-              blurRadius: 12.0,
-              spreadRadius: 10.r,
-              color: appColor.shadowColor.withOpacity(0.2),
-              offset: const Offset(1, 1)),
-        ],
-      );
+    color: appColor.cardColor,
+    borderRadius: BorderRadius.circular(10.r),
+    boxShadow: [
+      BoxShadow(
+        blurRadius: 12.0,
+        spreadRadius: 10.r,
+        color: appColor.shadowColor.withOpacity(0.2),
+        offset: const Offset(1, 1),
+      ),
+    ],
+  );
 }
 
 /// Build context extensions
@@ -176,7 +222,6 @@ extension ContextExtension on BuildContext {
 }
 
 /// Color scheme extensions
-
 extension ColorExtension on String {
   toColor() {
     var hexColor = this.replaceAll("#", "");
