@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hanuman_mandir/src/core/const/app_colors.dart';
 import 'package:hanuman_mandir/src/core/const/endpoints/endpoints.dart';
+import 'package:hanuman_mandir/src/core/utils/style_extension.dart';
+import 'package:hanuman_mandir/src/core/widgets/responsive_view.dart';
 import 'package:hanuman_mandir/src/data/services/header/header_service.dart';
 import 'package:hanuman_mandir/src/module/controller/header/header_controller.dart';
 import 'package:hanuman_mandir/src/module/model/header/header_model.dart';
@@ -30,69 +33,53 @@ class HeaderView extends StatelessWidget {
 
       final Datum data = headerController.headerDataList.first;
 
-      return LayoutBuilder(
-        builder: (context, constraints) {
-          // Define a breakpoint for mobile/tablet vs desktop
-          bool isMobile = constraints.maxWidth < 900;
-
-          return Column(
-            children: [
-              // PART 1: MAIN HEADER (Logos + Text)
-              Material(
-                color: const Color(0xFFA0252A),
-                child: Column(
-                  children: [
-                    Container(
-                      height: isMobile ? 20 : 35,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: Colors.red.shade900,
-                        border: const Border(
-                          bottom: BorderSide(
-                            color: Color(0xFFFFD700), // Gold line
-                            width: 1.5,
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    // --- Content Area ---
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        vertical: isMobile ? 15 : 20,
-                        horizontal: 16,
-                      ),
-                      child: Center(
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 1400),
-                          child: isMobile
-                              ? _buildMobileHeaderLayout(data)
-                              : _buildDesktopHeaderLayout(data),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              // PART 2: MENU BAR
-              Material(
-                color: const Color(0xFF7D1456),
-                child: Container(
+      return Column(
+        children: [
+          // PART 1: MAIN HEADER (Logos + Text)
+          Container(
+            color: AppColors.primaryRed,
+            child: Column(
+              children: [
+                // Top Border Line
+                Container(
+                  height: context.isMobile ? 20 : 35,
                   width: double.infinity,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 0,
-                    horizontal: 8,
+                  decoration: BoxDecoration(
+                    color: AppColors.borderColor,
+                    border: const Border(
+                      bottom: BorderSide(
+                        color: AppColors.gold, // Gold line
+                        width: 1.5,
+                      ),
+                    ),
                   ),
-                  // Switch between Mobile (Hamburger) and Desktop (Row)
-                  child: isMobile
-                      ? _buildMobileMenuBar()
-                      : _buildDesktopMenuBar(),
                 ),
+              ],
+            ),
+          ),
+
+          // --- Main Content Area ---
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: context.isMobile ? 15 : 20),
+            child: Center(
+              child: ResponsiveView(
+                mobile: _buildMobileHeaderLayout(data),
+                desktop: _buildDesktopHeaderLayout(data),
               ),
-            ],
-          );
-        },
+            ),
+          ),
+
+          // PART 2: MENU BAR
+          Container(
+            color: AppColors.deepPurple,
+            width: double.infinity,
+            // Switch between Mobile (Hamburger) and Desktop (Row)
+            child: ResponsiveView(
+              mobile: _buildMobileMenuBar(),
+              desktop: _buildDesktopMenuBar(),
+            ),
+          ),
+        ],
       );
     });
   }
@@ -471,20 +458,16 @@ class HeaderView extends StatelessWidget {
           image: imagePath,
           height: size,
           width: size,
-          duration: 0, // No animation to prevent flickering
+          duration: 0,
+          // No animation to prevent flickering
           fitAndroidIos: BoxFit.contain,
           fitWeb: BoxFitWeb.contain,
 
           // This applies CSS 'border-radius: 50%' on Web
           borderRadius: BorderRadius.circular(size),
 
-          onLoading: const CircularProgressIndicator(
-            color: Color(0xFFFFD700),
-          ),
-          onError: const Icon(
-            Icons.error,
-            color: Colors.red,
-          ),
+          onLoading: const CircularProgressIndicator(color: Color(0xFFFFD700)),
+          onError: const Icon(Icons.error, color: Colors.red),
         ),
       ),
     );
