@@ -7,7 +7,7 @@ class AppColors {
   static const Color primaryRed = Color(0xFFA0252A);
   static const Color darkRed = Color(0xFFB02135); // Used in Footer
   static const Color deepPurple = Color(0xFF7D1456); // Used in Menu
-  static const Color gold = Color(0xFFFFD700);
+  static const Color gold = Color(0xFFD5B906);
   static const Color white = Color(0xFFFFFFFF);
   static const Color black = Color(0xFF000000);
 
@@ -18,5 +18,9 @@ class AppColors {
   // Shadows & Borders
   static Color borderColor = Color(0xFFB71C1C);
   static Color shadow = Color(0xFF000000).withValues(alpha: 0.2);
-  static Color shadowDark = Color(0xFF000000).withValues(alpha: 0.4);
+  static Color shadowDark = Color(0xFF111111).withValues(alpha: 0.4);
+
+  // Error Colors
+static Color errorColor = Color(0xFFB00020);
+static Color errorTextColor = Color(0xFFFFFFFF);
 }
