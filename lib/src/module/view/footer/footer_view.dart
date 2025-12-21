@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hanuman_mandir/src/core/const/app_colors.dart';
+import 'package:hanuman_mandir/src/core/widgets/responsive_view.dart';
 import 'package:hanuman_mandir/src/data/services/footer/footer_service.dart';
 import 'package:hanuman_mandir/src/data/services/header/header_service.dart';
 import 'package:hanuman_mandir/src/module/controller/footer/footer_controller.dart';
@@ -19,7 +21,8 @@ class FooterView extends StatelessWidget {
     );
 
     // Retrieve the existing HeaderController to access the logo
-    final HeaderController headerController = Get.isRegistered<HeaderController>()
+    final HeaderController headerController =
+        Get.isRegistered<HeaderController>()
         ? Get.find<HeaderController>()
         : Get.put(HeaderController(headerService: HeaderService()));
 
@@ -37,45 +40,41 @@ class FooterView extends StatelessWidget {
       }
 
       String? logoUrl;
-      if(headerController.headerDataList.isNotEmpty) {
+      if (headerController.headerDataList.isNotEmpty) {
         logoUrl = headerController.headerDataList.first.leftImage;
       }
 
-      return LayoutBuilder(
-        builder: (context, constraints) {
-          // Breakpoint for Desktop
-          bool isDesktop = constraints.maxWidth > 1000;
-
-          return Container(
-            padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
-            width: double.infinity,
-            color: const Color(0xFFB02135),
-            child: isDesktop
-                ? Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: FooterWidgets.buildFooterContent(
-                isDesktop: true,
+      return Container(
+        padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
+        width: double.infinity,
+        color: AppColors.darkRed,
+        child: ResponsiveView(
+          mobile: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // Spread operator for mobile list
+              ...FooterWidgets.buildFooterContent(
+                isDesktop: false,
                 data: footerData,
                 logoUrl: logoUrl,
-              ),
-            )
-                : Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // Spread operator for mobile list
-                ...FooterWidgets.buildFooterContent(
-                  isDesktop: false,
-                  data: footerData,
-                  logoUrl: logoUrl,
-                ).map((widget) => Padding(
+              ).map(
+                (widget) => Padding(
                   padding: const EdgeInsets.only(bottom: 40),
                   child: widget,
-                )),
-              ],
+                ),
+              ),
+            ],
+          ),
+          desktop: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: FooterWidgets.buildFooterContent(
+              isDesktop: true,
+              data: footerData,
+              logoUrl: logoUrl,
             ),
-          );
-        },
+          ),
+        ),
       );
     });
   }
