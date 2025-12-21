@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -28,6 +29,14 @@ class MyApp extends StatelessWidget {
       title: 'Sri Hanuman',
       theme: ThemeData(
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+      ),
+      scrollBehavior: const MaterialScrollBehavior().copyWith(
+        dragDevices: {
+          PointerDeviceKind.mouse,
+          .touch,
+          .stylus,
+          .unknown,
+        }
       ),
       home: const HomeView(),
     );
