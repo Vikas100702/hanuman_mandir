@@ -11,7 +11,7 @@ extension UIContentExt on BuildContext {
   double get screenWidth => MediaQuery.of(this).size.width;
 
   // Access TextStyles easily: context.headerStyle
-  TextStyle get headerStyle => GoogleFonts.openSans(
+  TextStyle get headerTitleStyle => GoogleFonts.openSans(
     fontSize: ResponsiveView.isMobile(this) ? 28 : 40,
     fontWeight: .bold,
     color: AppColors.textWhite,
