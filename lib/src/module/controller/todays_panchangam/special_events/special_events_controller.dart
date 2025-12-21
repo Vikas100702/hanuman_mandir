@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:hanuman_mandir/src/data/services/special_events/special_events_service.dart';
-import 'package:hanuman_mandir/src/module/model/special_events/special_events_model.dart';
+import 'package:hanuman_mandir/src/data/services/todays_panchangam/special_events/special_events_service.dart';
+import 'package:hanuman_mandir/src/module/model/todays_panchangam/special_events/special_events_model.dart';
 
 class SpecialEventsController extends GetxController {
   final SpecialEventsService specialEventsService;
