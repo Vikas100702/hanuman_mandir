@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hanuman_mandir/src/core/const/app_colors.dart';
+import 'package:hanuman_mandir/src/core/const/app_menu_config.dart';
 import 'package:hanuman_mandir/src/core/const/endpoints/endpoints.dart';
 import 'package:hanuman_mandir/src/core/utils/style_extension.dart';
 import 'package:hanuman_mandir/src/core/widgets/responsive_view.dart';
@@ -33,53 +35,50 @@ class HeaderView extends StatelessWidget {
 
       final Datum data = headerController.headerDataList.first;
 
-      return Column(
-        children: [
-          // PART 1: MAIN HEADER (Logos + Text)
-          Container(
-            color: AppColors.primaryRed,
-            child: Column(
-              children: [
-                // Top Border Line
-                Container(
-                  height: context.isMobile ? 20 : 35,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: AppColors.borderColor,
-                    border: const Border(
-                      bottom: BorderSide(
-                        color: AppColors.gold, // Gold line
-                        width: 1.5,
-                      ),
-                    ),
+      return Container(
+        color: AppColors.primaryRed,
+        child: Column(
+          children: [
+            // PART 1: MAIN HEADER (Logos + Text)
+            Container(
+              height: context.isMobile ? 20 : 35,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: AppColors.borderColor,
+                border: const Border(
+                  bottom: BorderSide(
+                    color: AppColors.gold, // Gold line
+                    width: 1.5,
                   ),
                 ),
-              ],
-            ),
-          ),
-
-          // --- Main Content Area ---
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: context.isMobile ? 15 : 20),
-            child: Center(
-              child: ResponsiveView(
-                mobile: _buildMobileHeaderLayout(data),
-                desktop: _buildDesktopHeaderLayout(data),
               ),
             ),
-          ),
 
-          // PART 2: MENU BAR
-          Container(
-            color: AppColors.deepPurple,
-            width: double.infinity,
-            // Switch between Mobile (Hamburger) and Desktop (Row)
-            child: ResponsiveView(
-              mobile: _buildMobileMenuBar(),
-              desktop: _buildDesktopMenuBar(),
+            // --- Main Content Area ---
+            Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: context.isMobile ? 15 : 20,
+              ),
+              child: Center(
+                child: ResponsiveView(
+                  mobile: _buildMobileHeaderLayout(data),
+                  desktop: _buildDesktopHeaderLayout(data),
+                ),
+              ),
             ),
-          ),
-        ],
+
+            // PART 2: MENU BAR
+            Container(
+              color: AppColors.deepPurple,
+              width: double.infinity,
+              // Switch between Mobile (Hamburger) and Desktop (Row)
+              child: ResponsiveView(
+                mobile: _buildMobileMenuBar(),
+                desktop: _buildDesktopMenuBar(),
+              ),
+            ),
+          ],
+        ),
       );
     });
   }
@@ -105,11 +104,11 @@ class HeaderView extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // _buildLogo("${Endpoints.globalUrl}${data.leftImage}", size: 70),
-            _buildLogo("assets/images/left_header_logo.png", size: 70),
+            _buildLogo("${Endpoints.globalUrl}${data.leftImage}", size: 70),
+            // _buildLogo("assets/images/left_header_logo.png", size: 70),
             const SizedBox(width: 20),
-            // _buildLogo("${Endpoints.globalUrl}${data.rightImage}", size: 70),
-            _buildLogo("assets/images/right_header_logo.png", size: 70),
+            _buildLogo("${Endpoints.globalUrl}${data.rightImage}", size: 70),
+            // _buildLogo("assets/images/right_header_logo.png", size: 70),
           ],
         ),
         const SizedBox(height: 15),
@@ -125,84 +124,81 @@ class HeaderView extends StatelessWidget {
     final double normalSize = isMobile ? 14 : 22;
     final double iconSize = isMobile ? 16 : 22;
 
-    return Column(
-      children: [
-        Text(
-          data.refDataName ?? "The Hanuman Mandir",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontFamily: 'serif',
-            fontSize: titleSize,
-            fontWeight: FontWeight.bold,
-            color: const Color(0xFFFFFFFF),
-            shadows: [
-              Shadow(
-                offset: const Offset(2, 2),
-                blurRadius: 3,
-                color: Colors.black.withValues(alpha: 0.4),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 6),
-        if (data.subHeading != null)
-          Text(
-            data.subHeading!,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: subHeadSize,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFFF6D700),
-            ),
-          ),
-        const SizedBox(height: 6),
-        if (data.address != null)
-          Text(
-            data.address!,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: normalSize,
-              color: const Color(0xFFFFFFFF),
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-        const SizedBox(height: 10),
-        Wrap(
-          alignment: WrapAlignment.center,
-          crossAxisAlignment: WrapCrossAlignment.center,
-          spacing: 15,
-          runSpacing: 5,
+    return Builder(
+      builder: (context) {
+        return Column(
           children: [
-            if (data.phone != null)
-              _buildContactItem(
-                Icons.phone,
-                "+1 ${data.phone}",
-                normalSize,
-                iconSize,
-              ),
-            if (data.phoneNo != null)
-              _buildContactItem(
-                Icons.smartphone,
-                "+1 ${data.phoneNo}",
-                normalSize,
-                iconSize,
-              ),
-            if (data.email != null)
-              _buildContactItem(Icons.email, data.email!, normalSize, iconSize),
-          ],
-        ),
-        const SizedBox(height: 10),
-        if (data.templeTiming != null)
-          Text(
-            data.templeTiming!,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: normalSize,
-              color: Colors.white,
-              fontWeight: FontWeight.w400,
+            Text(
+              data.refDataName ?? "The Hanuman Mandir",
+              textAlign: TextAlign.center,
+              style: context.headerTitleStyle,
             ),
-          ),
-      ],
+            const SizedBox(height: 6),
+            if (data.subHeading != null)
+              Text(
+                data.subHeading!,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: subHeadSize,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.textYellow,
+                ),
+              ),
+            const SizedBox(height: 6),
+            if (data.address != null)
+              Text(
+                data.address!,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: normalSize,
+                  color: AppColors.textWhite,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            const SizedBox(height: 10),
+            Wrap(
+              alignment: WrapAlignment.center,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 15,
+              runSpacing: 5,
+              children: [
+                if (data.phone != null)
+                  _buildContactItem(
+                    Icons.phone,
+                    "+1 ${data.phone}",
+                    normalSize,
+                    iconSize,
+                  ),
+                if (data.phoneNo != null)
+                  _buildContactItem(
+                    Icons.smartphone,
+                    "+1 ${data.phoneNo}",
+                    normalSize,
+                    iconSize,
+                  ),
+                if (data.email != null)
+                  _buildContactItem(
+                    Icons.email,
+                    data.email!,
+                    normalSize,
+                    iconSize,
+                  ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            if (data.templeTiming != null)
+              Text(
+                data.templeTiming!,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: normalSize,
+                  color: AppColors.textWhite,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+          ],
+        );
+      },
     );
   }
 
@@ -214,15 +210,11 @@ class HeaderView extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
+          // mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _buildDesktopMenuItem("HOME", isActive: true),
-            _buildDesktopMenuItem("SERVICES"),
-            _buildDesktopMenuItem("CALENDAR"),
-            _buildDesktopMenuItem("DONATIONS", hasDropDown: true),
-            _buildDesktopMenuItem("EVENTS"),
-            _buildDesktopMenuItem("ABOUT TEMPLE", hasDropDown: true),
-            _buildDesktopMenuItem("SIGN-IN"),
+            ...AppMenuConfig.mainMenuItems.map(
+              (item) => _buildDesktopMenuItem(item),
+            ),
             _buildCartIcon(isMobile: false),
           ],
         ),
@@ -234,18 +226,18 @@ class HeaderView extends StatelessWidget {
   Widget _buildMobileMenuBar() {
     return Container(
       height: 50,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           IconButton(
-            icon: const Icon(Icons.menu, color: Colors.white, size: 28),
+            icon: const Icon(Icons.menu, color: AppColors.white, size: 28),
             onPressed: () => _openMobileMenu(),
           ),
           const Text(
             "MENU",
             style: TextStyle(
-              color: Colors.white,
+              color: AppColors.white,
               fontWeight: FontWeight.bold,
               letterSpacing: 1.2,
             ),
@@ -262,44 +254,52 @@ class HeaderView extends StatelessWidget {
   void _openMobileMenu() {
     Get.bottomSheet(
       Container(
-        color: const Color(0xFF7D1456), // Match Menu Color
+        color: AppColors.deepPurple, // Match Menu Color
         width: double.infinity,
-        padding: const EdgeInsets.only(top: 20, bottom: 40),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Close Handle
-              Container(
-                width: 40,
-                height: 4,
-                margin: const EdgeInsets.only(bottom: 20),
-                decoration: BoxDecoration(
-                  color: Colors.white30,
-                  borderRadius: BorderRadius.circular(2),
-                ),
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: AppMenuConfig.mainMenuItems.map((item) {
+            return ListTile(
+              title: Text(
+                item.title,
+                textAlign: .center,
+                style: GoogleFonts.openSans(color: AppColors.white),
               ),
+              onTap: () => Get.back(),
+            );
+          }).toList(),
+          /*children: [
+            // Close Handle
+            Container(
+              width: 40,
+              height: 4,
+              margin: const EdgeInsets.only(bottom: 20),
+              decoration: BoxDecoration(
+                color: Colors.white30,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
 
-              _buildMobileListTile("HOME", isActive: true),
-              const Divider(color: Colors.white24),
-              _buildMobileListTile("SERVICES"),
-              const Divider(color: Colors.white24),
-              _buildMobileListTile("CALENDAR"),
-              const Divider(color: Colors.white24),
+            _buildMobileListTile("HOME", isActive: true),
+            const Divider(color: Colors.white24),
+            _buildMobileListTile("SERVICES"),
+            const Divider(color: Colors.white24),
+            _buildMobileListTile("CALENDAR"),
+            const Divider(color: Colors.white24),
 
-              // Dropdowns rendered as ExpansionTiles for mobile
-              _buildMobileExpansionTile("DONATIONS"),
-              const Divider(color: Colors.white24),
+            // Dropdowns rendered as ExpansionTiles for mobile
+            _buildMobileExpansionTile("DONATIONS"),
+            const Divider(color: Colors.white24),
 
-              _buildMobileListTile("EVENTS"),
-              const Divider(color: Colors.white24),
+            _buildMobileListTile("EVENTS"),
+            const Divider(color: Colors.white24),
 
-              _buildMobileExpansionTile("ABOUT TEMPLE"),
-              const Divider(color: Colors.white24),
+            _buildMobileExpansionTile("ABOUT TEMPLE"),
+            const Divider(color: Colors.white24),
 
-              _buildMobileListTile("SIGN-IN"),
-            ],
-          ),
+            _buildMobileListTile("SIGN-IN"),
+          ],*/
         ),
       ),
       isScrollControlled: true, // Allows sheet to go taller if needed
@@ -311,34 +311,26 @@ class HeaderView extends StatelessWidget {
   }
 
   // --- Desktop Menu Item ---
-  Widget _buildDesktopMenuItem(
-    String title, {
-    bool isActive = false,
-    bool hasDropDown = false,
-  }) {
+  Widget _buildDesktopMenuItem(MenuItemModel item) {
     return Container(
-      color: isActive ? const Color(0xFFFFFFFF) : Colors.transparent,
+      color: item.isActive ? AppColors.white : Colors.transparent,
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            title,
-            style: TextStyle(
-              color: isActive
-                  ? const Color(0xFFC00000)
-                  : const Color(0xFFFFFFFF),
+            item.title,
+            style: GoogleFonts.openSans(
+              color: item.isActive ? const Color(0xFFC00000) : AppColors.white,
               fontWeight: FontWeight.bold,
               fontSize: 15.0,
             ),
           ),
-          if (hasDropDown) ...[
+          if (item.hasDropdown) ...[
             const SizedBox(width: 2),
             Icon(
               Icons.arrow_drop_down,
-              color: isActive
-                  ? const Color(0xFFC00000)
-                  : const Color(0xFFFFFFFF),
+              color: item.isActive ? const Color(0xFFC00000) : AppColors.white,
               size: 15.0,
             ),
           ],
@@ -409,66 +401,38 @@ class HeaderView extends StatelessWidget {
   Widget _buildCartIcon({required bool isMobile}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Row(
-        children: [
-          Icon(
-            Icons.shopping_cart,
-            color: const Color(0xFFFFFFFF),
-            size: isMobile ? 24 : 20,
-          ),
-          const SizedBox(width: 4),
-          Text(
-            "0",
-            style: TextStyle(
-              color: const Color(0xFFFFFFFF),
-              fontWeight: FontWeight.bold,
-              fontSize: isMobile ? 18 : 20,
-            ),
-          ),
-        ],
+      child: Icon(
+        Icons.shopping_cart,
+        color: AppColors.white,
+        size: isMobile ? 24 : 20,
       ),
     );
   }
 
   // --- Logo Builder ---
-  Widget _buildLogo(String? imagePath, {required double size}) {
-    if (imagePath == null || imagePath.isEmpty) {
+  Widget _buildLogo(String? url, {String? fallback, required double size}) {
+    // Logic to show ImageNetwork if url is valid, or Asset if not
+    if (url == null || url.isEmpty || !url.startsWith('http')) {
+      if (fallback != null) {
+        return Image.asset(fallback, height: size, width: size);
+      }
       return SizedBox(width: size, height: size);
     }
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Container(
+    return Container(
+      height: size,
+      width: size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(color: AppColors.gold, width: 2),
+      ),
+      child: ImageNetwork(
+        image: url,
         height: size,
         width: size,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.white,
-          border: Border.all(color: const Color(0xFFFFD700), width: 2),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.2),
-              blurRadius: 5,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
-        // Use ImageNetwork which handles CORS and Circular Clipping via CSS
-        child: ImageNetwork(
-          image: imagePath,
-          height: size,
-          width: size,
-          duration: 0,
-          // No animation to prevent flickering
-          fitAndroidIos: BoxFit.contain,
-          fitWeb: BoxFitWeb.contain,
-
-          // This applies CSS 'border-radius: 50%' on Web
-          borderRadius: BorderRadius.circular(size),
-
-          onLoading: const CircularProgressIndicator(color: Color(0xFFFFD700)),
-          onError: const Icon(Icons.error, color: Colors.red),
-        ),
+        borderRadius: BorderRadius.circular(size),
+        fitAndroidIos: BoxFit.contain,
+        fitWeb: BoxFitWeb.contain,
       ),
     );
   }
@@ -483,12 +447,12 @@ class HeaderView extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, color: Colors.white, size: iconSize),
+        Icon(icon, color: AppColors.white, size: iconSize),
         const SizedBox(width: 6),
         Text(
           text,
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.white,
             fontSize: fontSize,
             fontWeight: FontWeight.w500,
           ),
