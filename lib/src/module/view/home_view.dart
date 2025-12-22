@@ -20,7 +20,7 @@ class HomeView extends StatelessWidget {
             Row(
               mainAxisAlignment: .start,
               children: [
-                Expanded(child: SpecialEventsView()),
+                Expanded(child: SpecialEventsView()),Expanded(child: SpecialEventsView()),Expanded(child: SpecialEventsView()),
               ],
             ),
             FooterView(),

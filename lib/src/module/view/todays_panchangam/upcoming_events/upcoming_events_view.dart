@@ -7,8 +7,8 @@ import 'package:hanuman_mandir/src/data/services/todays_panchangam/special_event
 import 'package:hanuman_mandir/src/module/controller/todays_panchangam/special_events/special_events_controller.dart';
 import 'package:hanuman_mandir/src/module/view/todays_panchangam/widgets/todays_panchangam_widgets.dart';
 
-class SpecialEventsView extends StatelessWidget {
-  const SpecialEventsView({super.key});
+class UpcomingEventsView extends StatelessWidget {
+  const UpcomingEventsView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +41,9 @@ class SpecialEventsView extends StatelessWidget {
   }
 
   Widget _buildContent(
-    SpecialEventsController controller, {
-    required bool isMobile,
-  }) {
+      SpecialEventsController controller, {
+        required bool isMobile,
+      }) {
     // Determine height based on device
     final double cardHeight = isMobile ? 500 : 450;
 
