@@ -3,17 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hanuman_mandir/src/core/const/endpoints/endpoints.dart';
 import 'package:hanuman_mandir/src/module/model/footer/footer_model.dart';
 import 'package:hanuman_mandir/src/module/view/footer/widgets/footer_audio_player.dart';
+import 'package:hanuman_mandir/src/module/view/global_widgets/global_widgets.dart';
 import 'package:image_network/image_network.dart';
 
 class FooterWidgets {
-  // Custom Yellow Underline
-  static Widget customDivider({
-    required double height,
-    required double width,
-    required Color color,
-  }) {
-    return Container(height: height, width: width, color: color);
-  }
 
   // MAIN CONTENT BUILDER
   static List<Widget> buildFooterContent({
@@ -236,7 +229,7 @@ class FooterWidgets {
           ),
         ),
         const SizedBox(height: 8),
-        customDivider(height: 2, width: 150, color: const Color(0xFFD9950B)),
+        GlobalWidgets.customDivider(height: 2, width: 150, color: const Color(0xFFD9950B)),
       ],
     );
   }
