@@ -92,7 +92,7 @@ class SpecialEventsView extends StatelessWidget {
                   // "Date Range",
                   style: GoogleFonts.openSans(
                     fontSize: 14,
-                    color: AppColors.black,
+                    color: AppColors.primaryRed,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
