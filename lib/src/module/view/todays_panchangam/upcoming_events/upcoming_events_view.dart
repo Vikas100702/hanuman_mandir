@@ -50,7 +50,7 @@ class UpcomingEventsView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(16.0), // Outer padding
       child: TodaysPanchangamWidgets.panchangamCards(
-        title: "Special Events",
+        title: "Upcoming Events",
         height: cardHeight,
         child: ListView.separated(
           primary: false,
