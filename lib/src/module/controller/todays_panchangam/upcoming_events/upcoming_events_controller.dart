@@ -34,4 +34,12 @@ class UpcomingEventsController extends GetxController {
       isLoading(false);
     }
   }
+
+  /*List<Datum> get upcomingEventsDataList {
+    final events = upcomingEventsDataModel.value?.data ?? [];
+
+    if(events.isEmpty) return [];
+
+
+  }*/
 }
