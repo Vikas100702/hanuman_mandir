@@ -1,5 +1,5 @@
-class TempleScheduleModel {
-  TempleScheduleModel({
+class UpcomingEventsModel {
+  UpcomingEventsModel({
     required this.statusCode,
     required this.message,
     required this.count,
@@ -11,8 +11,8 @@ class TempleScheduleModel {
   final int? count;
   final List<Datum> data;
 
-  factory TempleScheduleModel.fromJson(Map<String, dynamic> json){
-    return TempleScheduleModel(
+  factory UpcomingEventsModel.fromJson(Map<String, dynamic> json){
+    return UpcomingEventsModel(
       statusCode: json["statusCode"],
       message: json["message"],
       count: json["Count"],
