@@ -3,6 +3,7 @@ import 'package:hanuman_mandir/src/module/view/banner/banner_view.dart';
 import 'package:hanuman_mandir/src/module/view/footer/footer_view.dart';
 import 'package:hanuman_mandir/src/module/view/todays_panchangam/special_events/special_events_view.dart';
 import 'package:hanuman_mandir/src/module/view/todays_panchangam/temple_schedule/temple_schedule_view.dart';
+import 'package:hanuman_mandir/src/module/view/todays_panchangam/upcoming_events/upcoming_events_view.dart';
 
 import 'header/header_view.dart';
 
@@ -23,7 +24,7 @@ class HomeView extends StatelessWidget {
               children: [
                 Expanded(child: SpecialEventsView()),
                 Expanded(child: TempleScheduleView()),
-                Expanded(child: SpecialEventsView()),
+                Expanded(child: UpcomingEventsView()),
               ],
             ),
             FooterView(),
