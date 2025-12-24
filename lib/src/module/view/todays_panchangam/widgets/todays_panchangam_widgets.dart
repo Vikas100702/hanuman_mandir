@@ -55,7 +55,7 @@ class TodaysPanchangamWidgets {
           Expanded(
             child: Container(
               padding: contentPadding ?? const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/bg_card.png"))),
+              decoration: BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/bg_card.png"), fit: .fill)),
               child: child,
             ),
           ),
