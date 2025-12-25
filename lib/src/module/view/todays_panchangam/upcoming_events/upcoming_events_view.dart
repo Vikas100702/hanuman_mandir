@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hanuman_mandir/src/core/const/app_colors.dart';
 import 'package:hanuman_mandir/src/core/widgets/responsive_view.dart';
-import 'package:hanuman_mandir/src/data/services/todays_panchangam/special_events/special_events_service.dart';
-import 'package:hanuman_mandir/src/module/controller/todays_panchangam/special_events/special_events_controller.dart';
+import 'package:hanuman_mandir/src/data/services/todays_panchangam/upcoming_events/upcoming_events_service.dart';
+import 'package:hanuman_mandir/src/module/controller/todays_panchangam/upcoming_events/upcoming_events_controller.dart';
 import 'package:hanuman_mandir/src/module/view/todays_panchangam/widgets/todays_panchangam_widgets.dart';
 
 class UpcomingEventsView extends StatelessWidget {
@@ -12,19 +12,19 @@ class UpcomingEventsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final SpecialEventsController specialEventsController = Get.put(
-      SpecialEventsController(specialEventsService: SpecialEventsService()),
+    final UpcomingEventsController upcomingEventsController = Get.put(
+      UpcomingEventsController(upcomingEventsService: UpcomingEventsService()),
     );
     return Obx(() {
-      if (specialEventsController.isLoading.value) {
+      if (upcomingEventsController.isLoading.value) {
         return const SizedBox(
           height: 250,
           child: Center(child: CircularProgressIndicator()),
         );
       }
 
-      if (specialEventsController.specialEventsDataModel.value == null ||
-          specialEventsController.specialEventsDataList.isEmpty) {
+      if (upcomingEventsController.upcomingEventsDataModel.value == null ||
+          upcomingEventsController.upcomingEventsDataList.isEmpty) {
         return const SizedBox.shrink();
       }
 
@@ -33,15 +33,15 @@ class UpcomingEventsView extends StatelessWidget {
         width: double.infinity,
         color: const Color(0xFFF5F5DC),
         child: ResponsiveView(
-          mobile: _buildContent(specialEventsController, isMobile: true),
-          desktop: _buildContent(specialEventsController, isMobile: false),
+          mobile: _buildContent(upcomingEventsController, isMobile: true),
+          desktop: _buildContent(upcomingEventsController, isMobile: false),
         ),
       );
     });
   }
 
   Widget _buildContent(
-      SpecialEventsController controller, {
+      UpcomingEventsController controller, {
         required bool isMobile,
       }) {
     // Determine height based on device
@@ -55,7 +55,7 @@ class UpcomingEventsView extends StatelessWidget {
         child: ListView.separated(
           primary: false,
           shrinkWrap: true,
-          itemCount: controller.specialEventsDataList.length,
+          itemCount: controller.upcomingEventsDataList.length,
           separatorBuilder: (context, index) => Padding(
             padding: const EdgeInsets.symmetric(vertical: 12.0),
             child: Divider(
@@ -65,7 +65,7 @@ class UpcomingEventsView extends StatelessWidget {
             ),
           ),
           itemBuilder: (context, index) {
-            final event = controller.specialEventsDataList[index];
+            final event = controller.upcomingEventsDataList[index];
 
             // Assuming event object has name, date, etc.
             // Adjust fields based on your actual model structure.
