@@ -6,33 +6,52 @@ import 'package:hanuman_mandir/src/core/widgets/responsive_view.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 extension UIContentExt on BuildContext {
+  // Helper to get Responsive-aware sizes
+  // On Mobile: scales with screen width (.sp, .w)
+  // On Desktop: uses fixed values or smaller scale factors to prevent 'giant' UI
+
+  bool get isMobile => ResponsiveView.isMobile(this);
+
   double get screenHeight => MediaQuery.of(this).size.height;
 
   double get screenWidth => MediaQuery.of(this).size.width;
 
-  // Access TextStyles easily: context.headerStyle
+  // --- Dynamic Text Styles ---
   TextStyle get headerTitleStyle => GoogleFonts.openSans(
-    fontSize: ResponsiveView.isMobile(this) ? 28 : 40,
+    fontSize: isMobile ? 28.sp : 40,
     fontWeight: .bold,
     color: AppColors.textWhite,
     shadows: [
       Shadow(
-        offset: const Offset(2, 2),
-        blurRadius: 3,
+        offset: Offset(2.w, 2.h),
+        blurRadius: 3.r,
         color: AppColors.shadowDark,
       ),
     ],
   );
 
+  TextStyle get subHeaderStyle => GoogleFonts.openSans(
+    fontSize: isMobile ? 14.sp : 18,
+    fontWeight: FontWeight.bold,
+    color: AppColors.textYellow,
+  );
+
+  TextStyle get bodyTextStyle => GoogleFonts.roboto(
+    fontSize: isMobile ? 14.sp : 16, // Readable body text
+    color: AppColors.textWhite,
+    fontWeight: FontWeight.w400,
+  );
+
   TextStyle get menuTextStyle => GoogleFonts.openSans(
     fontWeight: .bold,
-    fontSize: 15,
+    fontSize: isMobile ? 15.sp : 16,
     color: AppColors.textWhite,
   );
-}
 
-extension ResponsiveViewExt on BuildContext {
-  bool get isMobile => ResponsiveView.isMobile(this);
+  // --- Standardized Dimensions ---
+
+  double get standardPadding => isMobile ? 16.w : 24.0;
+  double get smallPadding => isMobile ? 8.w : 12.0;
 }
 
 /*extension ResponsiveExt on BuildContext {

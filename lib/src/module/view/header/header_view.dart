@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hanuman_mandir/src/core/const/app_colors.dart';
@@ -22,8 +23,8 @@ class HeaderView extends StatelessWidget {
 
     return Obx(() {
       if (headerController.isLoading.value) {
-        return const SizedBox(
-          height: 250,
+        return SizedBox(
+          height: 250.h,
           child: Center(child: CircularProgressIndicator()),
         );
       }
@@ -41,14 +42,14 @@ class HeaderView extends StatelessWidget {
           children: [
             // PART 1: MAIN HEADER (Logos + Text)
             Container(
-              height: context.isMobile ? 20 : 35,
+              height: context.isMobile ? 20.h : 35,
               width: double.infinity,
               decoration: BoxDecoration(
                 color: AppColors.borderColor,
-                border: const Border(
+                border: Border(
                   bottom: BorderSide(
                     color: AppColors.gold, // Gold line
-                    width: 1.5,
+                    width: 1.5.h,
                   ),
                 ),
               ),
@@ -57,7 +58,7 @@ class HeaderView extends StatelessWidget {
             // --- Main Content Area ---
             Padding(
               padding: EdgeInsets.symmetric(
-                vertical: context.isMobile ? 15 : 20,
+                vertical: context.isMobile ? 15.h : 20,
               ),
               child: Center(
                 child: ResponsiveView(
@@ -88,10 +89,10 @@ class HeaderView extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        _buildLogo("${Endpoints.globalUrl}${data.leftImage}", size: 130),
+        _buildLogo("${Endpoints.globalUrl}${data.leftImage}", size: 130.r),
         // _buildLogo("assets/images/left_header_logo.png", size: 130),
         Expanded(child: _buildTextContent(data, isMobile: false)),
-        _buildLogo("${Endpoints.globalUrl}${data.rightImage}", size: 130),
+        _buildLogo("${Endpoints.globalUrl}${data.rightImage}", size: 130.r),
         // _buildLogo("assets/images/right_header_logo.png", size: 130),
       ],
     );
@@ -104,14 +105,14 @@ class HeaderView extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _buildLogo("${Endpoints.globalUrl}${data.leftImage}", size: 70),
+            _buildLogo("${Endpoints.globalUrl}${data.leftImage}", size: 70.r),
             // _buildLogo("assets/images/left_header_logo.png", size: 70),
-            const SizedBox(width: 20),
-            _buildLogo("${Endpoints.globalUrl}${data.rightImage}", size: 70),
+            SizedBox(width: 20.w),
+            _buildLogo("${Endpoints.globalUrl}${data.rightImage}", size: 70.r),
             // _buildLogo("assets/images/right_header_logo.png", size: 70),
           ],
         ),
-        const SizedBox(height: 15),
+        SizedBox(height: 15.h),
         _buildTextContent(data, isMobile: true),
       ],
     );
@@ -119,11 +120,6 @@ class HeaderView extends StatelessWidget {
 
   // HEADER TEXT CONTENT WIDGET
   Widget _buildTextContent(Datum data, {required bool isMobile}) {
-    final double titleSize = isMobile ? 28 : 40;
-    final double subHeadSize = isMobile ? 14 : 18;
-    final double normalSize = isMobile ? 14 : 22;
-    final double iconSize = isMobile ? 16 : 22;
-
     return Builder(
       builder: (context) {
         return Column(
@@ -133,68 +129,45 @@ class HeaderView extends StatelessWidget {
               textAlign: TextAlign.center,
               style: context.headerTitleStyle,
             ),
-            const SizedBox(height: 6),
+            SizedBox(height: 6.h),
             if (data.subHeading != null)
               Text(
                 data.subHeading!,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: subHeadSize,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textYellow,
-                ),
+                style: context.subHeaderStyle,
               ),
-            const SizedBox(height: 6),
+            SizedBox(height: 6.h),
             if (data.address != null)
               Text(
                 data.address!,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: normalSize,
-                  color: AppColors.textWhite,
-                  fontWeight: FontWeight.w400,
-                ),
+                style: context.bodyTextStyle,
               ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10.h),
             Wrap(
               alignment: WrapAlignment.center,
               crossAxisAlignment: WrapCrossAlignment.center,
-              spacing: 15,
-              runSpacing: 5,
+              spacing: 15.w,
+              runSpacing: 5.h,
               children: [
                 if (data.phone != null)
-                  _buildContactItem(
-                    Icons.phone,
-                    "+1 ${data.phone}",
-                    normalSize,
-                    iconSize,
-                  ),
+                  _buildContactItem(Icons.phone, "+1 ${data.phone}", context),
                 if (data.phoneNo != null)
                   _buildContactItem(
                     Icons.smartphone,
                     "+1 ${data.phoneNo}",
-                    normalSize,
-                    iconSize,
+                    context,
                   ),
                 if (data.email != null)
-                  _buildContactItem(
-                    Icons.email,
-                    data.email!,
-                    normalSize,
-                    iconSize,
-                  ),
+                  _buildContactItem(Icons.email, data.email!, context),
               ],
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10.h),
             if (data.templeTiming != null)
               Text(
                 data.templeTiming!,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: normalSize,
-                  color: AppColors.textWhite,
-                  fontWeight: FontWeight.w400,
-                ),
+                style: context.bodyTextStyle,
               ),
           ],
         );
@@ -225,21 +198,22 @@ class HeaderView extends StatelessWidget {
   /// 2. Mobile Menu Bar (Hamburger Icon)
   Widget _buildMobileMenuBar() {
     return Container(
-      height: 50,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      height: 50.h,
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           IconButton(
-            icon: const Icon(Icons.menu, color: AppColors.white, size: 28),
+            icon: Icon(Icons.menu, color: AppColors.white, size: 28.sp),
             onPressed: () => _openMobileMenu(),
           ),
-          const Text(
+          Text(
             "MENU",
             style: TextStyle(
               color: AppColors.white,
               fontWeight: FontWeight.bold,
               letterSpacing: 1.2,
+              fontSize: 16.sp,
             ),
           ),
 
@@ -256,7 +230,7 @@ class HeaderView extends StatelessWidget {
       Container(
         color: AppColors.deepPurple, // Match Menu Color
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 20),
+        padding: EdgeInsets.symmetric(vertical: 20.h),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: AppMenuConfig.mainMenuItems.map((item) {
@@ -264,7 +238,10 @@ class HeaderView extends StatelessWidget {
               title: Text(
                 item.title,
                 textAlign: .center,
-                style: GoogleFonts.openSans(color: AppColors.white),
+                style: GoogleFonts.openSans(
+                  color: AppColors.white,
+                  fontSize: 18.sp,
+                ),
               ),
               onTap: () => Get.back(),
             );
@@ -304,8 +281,8 @@ class HeaderView extends StatelessWidget {
       ),
       isScrollControlled: true, // Allows sheet to go taller if needed
       elevation: 10,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
       ),
     );
   }
@@ -314,7 +291,7 @@ class HeaderView extends StatelessWidget {
   Widget _buildDesktopMenuItem(MenuItemModel item) {
     return Container(
       color: item.isActive ? AppColors.white : Colors.transparent,
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+      padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 12.0.h),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -323,15 +300,15 @@ class HeaderView extends StatelessWidget {
             style: GoogleFonts.openSans(
               color: item.isActive ? const Color(0xFFC00000) : AppColors.white,
               fontWeight: FontWeight.bold,
-              fontSize: 15.0,
+              fontSize: 15.0.sp,
             ),
           ),
           if (item.hasDropdown) ...[
-            const SizedBox(width: 2),
+            SizedBox(width: 2.w),
             Icon(
               Icons.arrow_drop_down,
               color: item.isActive ? const Color(0xFFC00000) : AppColors.white,
-              size: 15.0,
+              size: 15.0.sp,
             ),
           ],
         ],
@@ -400,11 +377,11 @@ class HeaderView extends StatelessWidget {
   // --- Helper: Cart Icon ---
   Widget _buildCartIcon({required bool isMobile}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: EdgeInsets.symmetric(horizontal: 16.0.w),
       child: Icon(
         Icons.shopping_cart,
         color: AppColors.white,
-        size: isMobile ? 24 : 20,
+        size: isMobile ? 20.sp : 24,
       ),
     );
   }
@@ -424,12 +401,12 @@ class HeaderView extends StatelessWidget {
       width: size,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        border: Border.all(color: AppColors.gold, width: 2),
+        border: Border.all(color: AppColors.gold, width: 2.w),
       ),
       child: ImageNetwork(
         image: url,
         height: size,
-        width: size,
+        width: size.w,
         borderRadius: BorderRadius.circular(size),
         fitAndroidIos: BoxFit.contain,
         fitWeb: BoxFitWeb.contain,
@@ -438,24 +415,15 @@ class HeaderView extends StatelessWidget {
   }
 
   // --- Contact Item Builder ---
-  Widget _buildContactItem(
-    IconData icon,
-    String text,
-    double fontSize,
-    double iconSize,
-  ) {
+  Widget _buildContactItem(IconData icon, String text, BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, color: AppColors.white, size: iconSize),
-        const SizedBox(width: 6),
+        Icon(icon, color: AppColors.white, size: context.isMobile ? 16.sp : 20),
+        SizedBox(width: 6.w),
         Text(
           text,
-          style: TextStyle(
-            color: AppColors.white,
-            fontSize: fontSize,
-            fontWeight: FontWeight.w500,
-          ),
+          style: context.bodyTextStyle,
         ),
       ],
     );

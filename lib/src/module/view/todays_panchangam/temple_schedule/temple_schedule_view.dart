@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hanuman_mandir/src/core/const/app_colors.dart';
@@ -19,8 +20,8 @@ class TempleScheduleView extends StatelessWidget {
         ));
     return Obx(() {
       if (templeScheduleController.isLoading.value) {
-        return const SizedBox(
-          height: 250,
+        return SizedBox(
+          height: 250.h,
           child: Center(child: CircularProgressIndicator()),
         );
       }
@@ -30,7 +31,7 @@ class TempleScheduleView extends StatelessWidget {
       }
 
       return Container(
-        padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
+        padding: EdgeInsets.symmetric(vertical: 50.h, horizontal: 20.w),
         width: double.infinity,
         color: const Color(0xFFF5F5DC),
         child: ResponsiveView(
@@ -46,10 +47,10 @@ class TempleScheduleView extends StatelessWidget {
     required bool isMobile,
   }) {
     // Determine height based on device
-    final double cardHeight = isMobile ? 500 : 450;
+    final double cardHeight = isMobile ? 500.h : 450.h;
 
     return Padding(
-      padding: const EdgeInsets.all(16.0), // Outer padding
+      padding: EdgeInsets.all(16.r), // Outer padding
       child: TodaysPanchangamWidgets.panchangamCards(
         title: "Temple Schedules",
         height: cardHeight,
@@ -57,7 +58,7 @@ class TempleScheduleView extends StatelessWidget {
           children: [
             _buildTabSection(controller),
 
-            const SizedBox(height: 10),
+            SizedBox(height: 10.h),
 
             Expanded(
               child: Obx(() {
@@ -76,11 +77,11 @@ class TempleScheduleView extends StatelessWidget {
                   shrinkWrap: true,
                   itemCount: currentList.length,
                   separatorBuilder: (context, index) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12.0),
+                    padding: EdgeInsets.symmetric(vertical: 12.0.h),
                     child: Divider(
                       color: Colors.grey.withValues(alpha: 0.3),
                       thickness: 1,
-                      height: 1,
+                      height: 1.h,
                     ),
                   ),
                   itemBuilder: (context, index) {
@@ -99,14 +100,14 @@ class TempleScheduleView extends StatelessWidget {
 
   Widget _buildTabSection(TempleScheduleController controller) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      padding: EdgeInsets.symmetric(vertical: 10.h),
       child: Row(
         mainAxisAlignment: .center,
         children: [
           _buildTabButton("DAILY", controller),
-          const SizedBox(width: 10),
+          SizedBox(width: 10.w),
           _buildTabButton("WEEKLY", controller),
-          const SizedBox(width: 10),
+          SizedBox(width: 10.w),
           _buildTabButton("MONTHLY", controller),
         ],
       ),
@@ -120,15 +121,15 @@ class TempleScheduleView extends StatelessWidget {
       return InkWell(
         onTap: () => controller.updateCategory(label),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
           decoration: BoxDecoration(
             color: isSelected ? const Color(0xFF004D40) : Colors.grey[300],
             // Dark Green vs Grey
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(4.r),
             border: isSelected
                 ? Border.all(
                     color: Colors.amber,
-                    width: 2,
+                    width: 2.w,
                   ) // Gold border for active
                 : null,
           ),
@@ -137,7 +138,7 @@ class TempleScheduleView extends StatelessWidget {
             style: GoogleFonts.openSans(
               color: isSelected ? Colors.white : Colors.black87,
               fontWeight: FontWeight.bold,
-              fontSize: 14,
+              fontSize: 14.sp,
             ),
           ),
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hanuman_mandir/src/core/const/endpoints/endpoints.dart';
 import 'package:hanuman_mandir/src/module/model/footer/footer_model.dart';
@@ -7,7 +8,6 @@ import 'package:hanuman_mandir/src/module/view/global_widgets/global_widgets.dar
 import 'package:image_network/image_network.dart';
 
 class FooterWidgets {
-
   // MAIN CONTENT BUILDER
   static List<Widget> buildFooterContent({
     required bool isDesktop,
@@ -19,23 +19,30 @@ class FooterWidgets {
       Column(
         children: [
           Container(
-            height: 150,
-            width: 150,
-            margin: const EdgeInsets.only(bottom: 20),
-            child: (logoUrl != null && logoUrl.isNotEmpty) ? ImageNetwork(image: "${Endpoints.globalUrl}$logoUrl", height: 150, width: 150, fitAndroidIos: .contain,) :Image.asset(
-              "assets/images/left_header_logo.png",
-              fit: BoxFit.contain,
-              errorBuilder: (context, error, stackTrace) {
-                return const Center(
-                  child: Icon(Icons.error, color: Colors.white),
-                );
-              },
-            ),
+            height: isDesktop ? 150 : 150.h,
+            width: isDesktop ? 140 : 150.w,
+            margin: EdgeInsets.only(bottom: 20.h),
+            child: (logoUrl != null && logoUrl.isNotEmpty)
+                ? ImageNetwork(
+                    image: "${Endpoints.globalUrl}$logoUrl",
+                    height: isDesktop ? 150 : 150.h,
+                    width: isDesktop ? 150 : 150.h,
+                    fitAndroidIos: .contain,
+                  )
+                : Image.asset(
+                    "assets/images/left_header_logo.png",
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Center(
+                        child: Icon(Icons.error, color: Colors.white),
+                      );
+                    },
+                  ),
           ),
 
           // Audio Player Section
           const FooterAudioPlayer(),
-          if (!isDesktop) const SizedBox(height: 30),
+          if (!isDesktop) SizedBox(height: 30.h),
         ],
       ),
 
@@ -46,7 +53,7 @@ class FooterWidgets {
             : CrossAxisAlignment.center,
         children: [
           _buildSectionHeader("ABOUT US", isDesktop),
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
           _buildFooterLink("ABOUT TEMPLE"),
           _buildFooterLink("EVENTS"),
           _buildFooterLink("SERVICES"),
@@ -62,11 +69,11 @@ class FooterWidgets {
             : CrossAxisAlignment.center,
         children: [
           _buildSectionHeader("TEMPLE TIMINGS", isDesktop),
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
 
           // Timings Block
           SizedBox(
-            width: 320,
+            width: isDesktop ? 320 : 320.w,
             child: Column(
               children: [
                 // Weekdays
@@ -74,12 +81,12 @@ class FooterWidgets {
                   child: Row(
                     children: [
                       SizedBox(
-                        width: 90,
+                        width: 90.w,
                         child: Text(
                           "WEEKDAYS",
                           style: GoogleFonts.openSans(
                             color: Colors.white,
-                            fontSize: 16,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.w600,
                           ),
                           textAlign: TextAlign.right,
@@ -88,14 +95,14 @@ class FooterWidgets {
                       Container(
                         width: 1,
                         color: Colors.white30,
-                        margin: const EdgeInsets.symmetric(horizontal: 10),
+                        margin: EdgeInsets.symmetric(horizontal: 10.w),
                       ),
                       Expanded(
                         child: Text(
                           "${data?.weekdayMorningTime ?? '9:00 AM TO 1:00 PM'}\n${data?.weekDayEveningTime ?? '5:00 PM TO 9:00 PM'}",
                           style: GoogleFonts.openSans(
                             color: Colors.white,
-                            fontSize: 16,
+                            fontSize: 16.sp,
                             height: 1.4,
                           ),
                         ),
@@ -103,37 +110,37 @@ class FooterWidgets {
                     ],
                   ),
                 ),
-                const SizedBox(height: 10),
-                Divider(color: Colors.white30, height: 1),
-                const SizedBox(height: 10),
+                SizedBox(height: 10.h),
+                Divider(color: Colors.white30, height: 1.h),
+                SizedBox(height: 10.h),
                 // Weekends
                 IntrinsicHeight(
                   child: Row(
                     children: [
                       SizedBox(
-                        width: 90,
+                        width: 90.w,
                         child: Text(
                           "WEEKENDS",
                           style: GoogleFonts.openSans(
                             color: Colors.white,
-                            fontSize: 16,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.w600,
                           ),
                           textAlign: TextAlign.right,
                         ),
                       ),
                       Container(
-                        width: 1,
+                        width: 1.w,
                         color: Colors.white30,
-                        margin: const EdgeInsets.symmetric(horizontal: 10),
+                        margin: EdgeInsets.symmetric(horizontal: 10.w),
                       ),
                       Expanded(
                         child: Text(
                           "${data?.weekEndMorningTime ?? '09:00 AM'} ${data?.weekEndEveningTime ?? '09:00 PM'}",
                           style: GoogleFonts.openSans(
                             color: Colors.white,
-                            fontSize: 16,
-                            height: 1.4,
+                            fontSize: 16.sp,
+                            height: 1.4.h,
                           ),
                         ),
                       ),
@@ -144,7 +151,7 @@ class FooterWidgets {
             ),
           ),
 
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
 
           // FOLLOW US
           Column(
@@ -153,13 +160,13 @@ class FooterWidgets {
                 : CrossAxisAlignment.center,
             children: [
               _buildSectionHeader("FOLLOW US", isDesktop),
-              const SizedBox(height: 15),
+              SizedBox(height: 15.h),
               Row(
                 mainAxisSize: MainAxisSize.min, // Center the row itself
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   _buildSocialIcon(Icons.facebook),
-                  const SizedBox(width: 15),
+                  SizedBox(width: 15.h),
                   _buildSocialIcon(Icons.video_library_rounded),
                 ],
               ),
@@ -173,8 +180,8 @@ class FooterWidgets {
         Transform.rotate(
           angle: 0.1,
           child: Container(
-            height: 250,
-            width: 2,
+            height: 250.h,
+            width: 2.w,
             color: const Color(0xFFD9950B),
           ),
         ),
@@ -186,22 +193,23 @@ class FooterWidgets {
             : CrossAxisAlignment.center,
         children: [
           _buildSectionHeader("CONNECT WITH US", isDesktop),
-          const SizedBox(height: 25),
+          SizedBox(height: 25.h),
 
           _buildContactRow(
             Icons.location_on,
-            data?.refDataCode ?? "390 Cumming Street Suite B,\nAlpharetta, GA 30004",
+            data?.refDataCode ??
+                "390 Cumming Street Suite B,\nAlpharetta, GA 30004",
             isDesktop,
           ),
-          const SizedBox(height: 15),
+          SizedBox(height: 15.h),
           _buildContactRow(
             Icons.phone,
             "+1 ${data?.phone ?? "+1 770-475-7701"}",
             isDesktop,
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 10.h),
           _buildContactRow(Icons.phone_android, "+1 470-454-4029", isDesktop),
-          const SizedBox(height: 10),
+          SizedBox(height: 10.h),
           _buildContactRow(
             Icons.email,
             data?.email ?? "manager@srihanuman.org",
@@ -224,25 +232,29 @@ class FooterWidgets {
           title,
           style: GoogleFonts.openSans(
             color: Colors.white,
-            fontSize: 16,
+            fontSize: 16.sp,
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 8),
-        GlobalWidgets.customDivider(height: 2, width: 150, color: const Color(0xFFD9950B)),
+        SizedBox(height: 8.h),
+        GlobalWidgets.customDivider(
+          height: 2.h,
+          width: 150.w,
+          color: const Color(0xFFD9950B),
+        ),
       ],
     );
   }
 
   static Widget _buildFooterLink(String text) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: EdgeInsets.only(bottom: 8.h),
       child: Text(
         text,
         style: GoogleFonts.openSans(
           color: Colors.white,
-          fontSize: 16,
-          height: 1.5,
+          fontSize: 16.sp,
+          height: 1.5.h,
         ),
       ),
     );
@@ -250,12 +262,12 @@ class FooterWidgets {
 
   static Widget _buildSocialIcon(IconData icon) {
     return Container(
-      padding: const EdgeInsets.all(8),
+      padding: EdgeInsets.all(8.r),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        border: Border.all(color: Colors.white, width: 1),
+        border: Border.all(color: Colors.white, width: 1.w),
       ),
-      child: Icon(icon, color: Colors.white, size: 18),
+      child: Icon(icon, color: Colors.white, size: 18.sp),
     );
   }
 
@@ -268,15 +280,15 @@ class FooterWidgets {
           : MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Center(child: Icon(icon, color: Colors.white, size: 16)),
-        const SizedBox(width: 12),
+        Center(child: Icon(icon, color: Colors.white, size: 16.sp)),
+        SizedBox(width: 12.w),
         Flexible(
           child: Text(
             text,
             style: GoogleFonts.openSans(
               color: Colors.white,
-              fontSize: 16,
-              height: 1.5,
+              fontSize: 16.sp,
+              height: 1.5.h,
             ),
             textAlign: isDesktop ? TextAlign.left : TextAlign.center,
           ),

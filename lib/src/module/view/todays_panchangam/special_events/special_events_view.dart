@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hanuman_mandir/src/core/const/app_colors.dart';
@@ -17,8 +18,8 @@ class SpecialEventsView extends StatelessWidget {
     );
     return Obx(() {
       if (specialEventsController.isLoading.value) {
-        return const SizedBox(
-          height: 250,
+        return SizedBox(
+          height: 250.h,
           child: Center(child: CircularProgressIndicator()),
         );
       }
@@ -29,7 +30,7 @@ class SpecialEventsView extends StatelessWidget {
       }
 
       return Container(
-        padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
+        padding: EdgeInsets.symmetric(vertical: 50.h, horizontal: 20.w),
         width: double.infinity,
         color: const Color(0xFFF5F5DC),
         child: ResponsiveView(
@@ -45,10 +46,10 @@ class SpecialEventsView extends StatelessWidget {
     required bool isMobile,
   }) {
     // Determine height based on device
-    final double cardHeight = isMobile ? 500 : 450;
+    final double cardHeight = isMobile ? 500.h : 450;
 
     return Padding(
-      padding: const EdgeInsets.all(16.0), // Outer padding
+      padding: EdgeInsets.all(16.w), // Outer padding
       child: TodaysPanchangamWidgets.panchangamCards(
         title: "Special Events",
         height: cardHeight,
@@ -57,7 +58,7 @@ class SpecialEventsView extends StatelessWidget {
           shrinkWrap: true,
           itemCount: controller.specialEventsDataList.length,
           separatorBuilder: (context, index) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12.0),
+            padding: EdgeInsets.symmetric(vertical: 12.h),
             child: Divider(
               color: Colors.grey.withValues(alpha: 0.3),
               thickness: 1,
@@ -78,25 +79,25 @@ class SpecialEventsView extends StatelessWidget {
                   // "Event Name",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.charm(
-                    fontSize: 22,
+                    fontSize: isMobile? 22.sp : 22,
                     fontWeight: FontWeight.w600,
                     fontStyle: FontStyle.italic,
                     color: const Color(0xFF8B2323),
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: 4.h),
 
                 // Date Range (e.g., Mar 08 - Dec 31)
                 Text(
                   "${event.startDate} - ${event.endDate}",
                   // "Date Range",
                   style: GoogleFonts.openSans(
-                    fontSize: 14,
+                    fontSize: isMobile ? 14.sp : 14,
                     color: AppColors.primaryRed,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: 4.h),
 
                 // Link
                 InkWell(
@@ -108,7 +109,7 @@ class SpecialEventsView extends StatelessWidget {
                     // "Event Details",
                     textAlign: TextAlign.center,
                     style: GoogleFonts.openSans(
-                      fontSize: 14,
+                      fontSize: isMobile ? 14.sp : 14,
                       color: Colors.blue,
                       decoration: TextDecoration.underline,
                       fontWeight: FontWeight.w600,

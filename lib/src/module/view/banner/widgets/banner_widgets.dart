@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hanuman_mandir/src/core/const/app_colors.dart';
 import 'package:hanuman_mandir/src/core/const/endpoints/endpoints.dart';
@@ -100,7 +101,7 @@ class BannerWidgets {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
         child: isMobile
             ? ListView(
           shrinkWrap: true,
@@ -128,30 +129,30 @@ class BannerWidgets {
           textAlign: TextAlign.center,
           style: GoogleFonts.openSans(
             color: const Color(0xFF44233B),
-            fontSize: isMobile ? 28 : 32,
+            fontSize: isMobile ? 28.sp : 32,
             fontWeight: FontWeight.bold,
             height: 1.0,
           ),
         ),
       ),
-      const SizedBox(height: 5),
+      SizedBox(height: 5.h),
 
       // Divider Image
       Center(
-        child: Image.asset("assets/images/border.png"),
+        child: Image.asset("assets/images/border.png",height: isMobile ? 10.h : null,),
       ),
-      const SizedBox(height: 15),
+      SizedBox(height: 15.h),
 
       // SubHeading
       if (data.bannerSubHeading != null && data.bannerSubHeading!.isNotEmpty)
         Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
+          padding: EdgeInsets.only(bottom: 8.h),
           child: Text(
             "${data.bannerSubHeading ?? ""}\n",
             textAlign: TextAlign.left,
             style: GoogleFonts.openSans(
               color: const Color(0xFF4D4643),
-              fontSize: isMobile ? 18 : 20,
+              fontSize: isMobile ? 18.sp : 20,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -164,8 +165,8 @@ class BannerWidgets {
         textAlign: TextAlign.justify,
         style: GoogleFonts.openSans(
           color: AppColors.black,
-          fontSize: 16,
-          height: 1.5,
+          fontSize: 16.sp,
+          height: 1.5.h,
         ),
       )
           : Expanded(
@@ -175,7 +176,7 @@ class BannerWidgets {
             textAlign: TextAlign.left,
             style: GoogleFonts.openSans(
               color: AppColors.black,
-              fontSize: 18,
+              fontSize: 18.sp,
             ),
           ),
         ),
