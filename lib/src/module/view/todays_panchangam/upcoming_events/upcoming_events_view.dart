@@ -75,7 +75,7 @@ class UpcomingEventsView extends StatelessWidget {
           shrinkWrap: true,
           itemCount: controller.upcomingEventsDataList.length,
           separatorBuilder: (context, index) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12.0),
+            padding: const EdgeInsets.symmetric(vertical: .0),
             child: Divider(
               color: Colors.grey.withValues(alpha: 0.3),
               thickness: 1,
@@ -88,7 +88,9 @@ class UpcomingEventsView extends StatelessWidget {
             // Assuming event object has name, date, etc.
             // Adjust fields based on your actual model structure.
             return Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              // crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: .start,
+              // mainAxisSize: .min,
               children: [
                 // Event Name (Styled like 'Navagraha and Nagadevi Prathista')
                 Row(
@@ -109,6 +111,8 @@ class UpcomingEventsView extends StatelessWidget {
                       ),
                     SizedBox(width: 10),
                     Column(
+                      mainAxisAlignment: .start,
+                      crossAxisAlignment: .start,
                       children: [
                         Text(
                           ((event.refDataName)?.trim() ?? 'Event Name'),
@@ -125,7 +129,7 @@ class UpcomingEventsView extends StatelessWidget {
                         // Date Range (e.g., Mar 08 - Dec 31)
                         Text(
                           "${_formatDate((event.startDate)?.trim())} - ${_formatDate((event.endDate)?.trim())}",
-                          textAlign: .justify,
+                          textAlign: .left,
                           // "Date Range",
                           style: GoogleFonts.openSans(
                             fontSize: 11,
