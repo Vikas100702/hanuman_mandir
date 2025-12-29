@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hanuman_mandir/src/core/const/endpoints/endpoints.dart';
+import 'package:hanuman_mandir/src/core/utils/style_extension.dart';
 import 'package:hanuman_mandir/src/module/model/footer/footer_model.dart';
 import 'package:hanuman_mandir/src/module/view/footer/widgets/footer_audio_player.dart';
 import 'package:hanuman_mandir/src/module/view/global_widgets/global_widgets.dart';
@@ -10,6 +10,7 @@ import 'package:image_network/image_network.dart';
 class FooterWidgets {
   // MAIN CONTENT BUILDER
   static List<Widget> buildFooterContent({
+    required BuildContext context,
     required bool isDesktop,
     Datum? data,
     String? logoUrl,
@@ -17,32 +18,36 @@ class FooterWidgets {
     return [
       // 1. LOGO & AUDIO SECTION
       Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            height: isDesktop ? 150 : 150.h,
-            width: isDesktop ? 140 : 150.w,
-            margin: EdgeInsets.only(bottom: 20.h),
+            height: isDesktop ? 120 : context.responsiveHeight(100, 120),
+            width: isDesktop ? 120 : context.responsiveWidth(100, 120),
+            margin: EdgeInsets.only(
+              bottom: context.responsiveHeight(15, 20),
+            ),
             child: (logoUrl != null && logoUrl.isNotEmpty)
                 ? ImageNetwork(
-                    image: "${Endpoints.globalUrl}$logoUrl",
-                    height: isDesktop ? 150 : 150.h,
-                    width: isDesktop ? 150 : 150.h,
-                    fitAndroidIos: .contain,
-                  )
+              image: "${Endpoints.globalUrl}$logoUrl",
+              height: isDesktop ? 120 : context.responsiveHeight(100, 120),
+              width: isDesktop ? 120 : context.responsiveWidth(100, 120),
+              fitAndroidIos: BoxFit.contain,
+              fitWeb: BoxFitWeb.contain,
+              onError: Icon(Icons.error, color: Colors.white),
+            )
                 : Image.asset(
-                    "assets/images/left_header_logo.png",
-                    fit: BoxFit.contain,
-                    errorBuilder: (context, error, stackTrace) {
-                      return const Center(
-                        child: Icon(Icons.error, color: Colors.white),
-                      );
-                    },
-                  ),
+              "assets/images/left_header_logo.png",
+              fit: BoxFit.contain,
+              errorBuilder: (context, error, stackTrace) {
+                return const Center(
+                  child: Icon(Icons.error, color: Colors.white),
+                );
+              },
+            ),
           ),
 
           // Audio Player Section
           const FooterAudioPlayer(),
-          if (!isDesktop) SizedBox(height: 30.h),
         ],
       ),
 
@@ -51,14 +56,15 @@ class FooterWidgets {
         crossAxisAlignment: isDesktop
             ? CrossAxisAlignment.start
             : CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          _buildSectionHeader("ABOUT US", isDesktop),
-          SizedBox(height: 20.h),
-          _buildFooterLink("ABOUT TEMPLE"),
-          _buildFooterLink("EVENTS"),
-          _buildFooterLink("SERVICES"),
-          _buildFooterLink("DONATIONS"),
-          _buildFooterLink("CALENDAR"),
+          _buildSectionHeader(context, "ABOUT US", isDesktop),
+          SizedBox(height: context.responsiveHeight(15, 20)),
+          _buildFooterLink(context, "ABOUT TEMPLE"),
+          _buildFooterLink(context, "EVENTS"),
+          _buildFooterLink(context, "SERVICES"),
+          _buildFooterLink(context, "DONATIONS"),
+          _buildFooterLink(context, "CALENDAR"),
         ],
       ),
 
@@ -67,107 +73,122 @@ class FooterWidgets {
         crossAxisAlignment: isDesktop
             ? CrossAxisAlignment.start
             : CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          _buildSectionHeader("TEMPLE TIMINGS", isDesktop),
-          SizedBox(height: 20.h),
+          _buildSectionHeader(context, "TEMPLE TIMINGS", isDesktop),
+          SizedBox(height: context.responsiveHeight(15, 20)),
 
           // Timings Block
-          SizedBox(
-            width: isDesktop ? 320 : 320.w,
+          Container(
+            constraints: BoxConstraints(
+              maxWidth: isDesktop ? 320 : context.screenWidth * 0.8,
+            ),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 // Weekdays
-                IntrinsicHeight(
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 90.w,
-                        child: Text(
-                          "WEEKDAYS",
-                          style: GoogleFonts.openSans(
-                            color: Colors.white,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          textAlign: TextAlign.right,
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: context.responsiveWidth(90, 100),
+                      child: Text(
+                        "WEEKDAYS",
+                        style: GoogleFonts.openSans(
+                          color: Colors.white,
+                          fontSize: context.responsiveSize(14, 16),
+                          fontWeight: FontWeight.w600,
+                        ),
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                    Container(
+                      width: 1,
+                      height: 40,
+                      color: Colors.white30,
+                      margin: EdgeInsets.symmetric(
+                        horizontal: context.responsiveWidth(10, 12),
+                      ),
+                    ),
+                    Flexible(
+                      child: Text(
+                        "${data?.weekdayMorningTime ?? '9:00 AM TO 1:00 PM'}\n${data?.weekDayEveningTime ?? '5:00 PM TO 9:00 PM'}",
+                        style: GoogleFonts.openSans(
+                          color: Colors.white,
+                          fontSize: context.responsiveSize(13, 16),
+                          height: 1.4,
                         ),
                       ),
-                      Container(
-                        width: 1,
-                        color: Colors.white30,
-                        margin: EdgeInsets.symmetric(horizontal: 10.w),
-                      ),
-                      Expanded(
-                        child: Text(
-                          "${data?.weekdayMorningTime ?? '9:00 AM TO 1:00 PM'}\n${data?.weekDayEveningTime ?? '5:00 PM TO 9:00 PM'}",
-                          style: GoogleFonts.openSans(
-                            color: Colors.white,
-                            fontSize: 16.sp,
-                            height: 1.4,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                SizedBox(height: 10.h),
-                Divider(color: Colors.white30, height: 1.h),
-                SizedBox(height: 10.h),
+                SizedBox(height: context.responsiveHeight(8, 10)),
+                Divider(
+                  color: Colors.white30,
+                  height: 1,
+                  thickness: 1,
+                ),
+                SizedBox(height: context.responsiveHeight(8, 10)),
                 // Weekends
-                IntrinsicHeight(
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 90.w,
-                        child: Text(
-                          "WEEKENDS",
-                          style: GoogleFonts.openSans(
-                            color: Colors.white,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          textAlign: TextAlign.right,
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: context.responsiveWidth(90, 100),
+                      child: Text(
+                        "WEEKENDS",
+                        style: GoogleFonts.openSans(
+                          color: Colors.white,
+                          fontSize: context.responsiveSize(14, 16),
+                          fontWeight: FontWeight.w600,
+                        ),
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                    Container(
+                      width: 1,
+                      height: 20,
+                      color: Colors.white30,
+                      margin: EdgeInsets.symmetric(
+                        horizontal: context.responsiveWidth(10, 12),
+                      ),
+                    ),
+                    Flexible(
+                      child: Text(
+                        "${data?.weekEndMorningTime ?? '09:00 AM'} TO ${data?.weekEndEveningTime ?? '09:00 PM'}",
+                        style: GoogleFonts.openSans(
+                          color: Colors.white,
+                          fontSize: context.responsiveSize(13, 16),
+                          height: 1.4,
                         ),
                       ),
-                      Container(
-                        width: 1.w,
-                        color: Colors.white30,
-                        margin: EdgeInsets.symmetric(horizontal: 10.w),
-                      ),
-                      Expanded(
-                        child: Text(
-                          "${data?.weekEndMorningTime ?? '09:00 AM'} ${data?.weekEndEveningTime ?? '09:00 PM'}",
-                          style: GoogleFonts.openSans(
-                            color: Colors.white,
-                            fontSize: 16.sp,
-                            height: 1.4.h,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ],
             ),
           ),
 
-          SizedBox(height: 20.h),
+          SizedBox(height: context.responsiveHeight(20, 25)),
 
           // FOLLOW US
           Column(
             crossAxisAlignment: isDesktop
                 ? CrossAxisAlignment.start
                 : CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              _buildSectionHeader("FOLLOW US", isDesktop),
-              SizedBox(height: 15.h),
+              _buildSectionHeader(context, "FOLLOW US", isDesktop),
+              SizedBox(height: context.responsiveHeight(12, 15)),
               Row(
-                mainAxisSize: MainAxisSize.min, // Center the row itself
+                mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _buildSocialIcon(Icons.facebook),
-                  SizedBox(width: 15.h),
-                  _buildSocialIcon(Icons.video_library_rounded),
+                  _buildSocialIcon(context, Icons.facebook),
+                  SizedBox(width: context.responsiveWidth(12, 15)),
+                  _buildSocialIcon(context, Icons.video_library_rounded),
                 ],
               ),
             ],
@@ -177,12 +198,19 @@ class FooterWidgets {
 
       // DIVIDER LINE (Desktop Only)
       if (isDesktop)
-        Transform.rotate(
-          angle: 0.1,
-          child: Container(
-            height: 250.h,
-            width: 2.w,
-            color: const Color(0xFFD9950B),
+        Container(
+          height: 200,
+          width: 2,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                const Color(0xFFD9950B).withOpacity(0.3),
+                const Color(0xFFD9950B),
+                const Color(0xFFD9950B).withOpacity(0.3),
+              ],
+            ),
           ),
         ),
 
@@ -191,26 +219,34 @@ class FooterWidgets {
         crossAxisAlignment: isDesktop
             ? CrossAxisAlignment.start
             : CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          _buildSectionHeader("CONNECT WITH US", isDesktop),
-          SizedBox(height: 25.h),
+          _buildSectionHeader(context, "CONNECT WITH US", isDesktop),
+          SizedBox(height: context.responsiveHeight(20, 25)),
 
           _buildContactRow(
+            context,
             Icons.location_on,
-            data?.refDataCode ??
-                "390 Cumming Street Suite B,\nAlpharetta, GA 30004",
+            data?.refDataCode ?? "390 Cumming Street Suite B,\nAlpharetta, GA 30004",
             isDesktop,
           ),
-          SizedBox(height: 15.h),
+          SizedBox(height: context.responsiveHeight(12, 15)),
           _buildContactRow(
+            context,
             Icons.phone,
-            "+1 ${data?.phone ?? "+1 770-475-7701"}",
+            "+1 ${data?.phone ?? '770-475-7701'}",
             isDesktop,
           ),
-          SizedBox(height: 10.h),
-          _buildContactRow(Icons.phone_android, "+1 470-454-4029", isDesktop),
-          SizedBox(height: 10.h),
+          SizedBox(height: context.responsiveHeight(8, 10)),
           _buildContactRow(
+            context,
+            Icons.phone_android,
+            "+1 470-454-4029",
+            isDesktop,
+          ),
+          SizedBox(height: context.responsiveHeight(8, 10)),
+          _buildContactRow(
+            context,
             Icons.email,
             data?.email ?? "manager@srihanuman.org",
             isDesktop,
@@ -222,75 +258,97 @@ class FooterWidgets {
 
   // --- HELPER WIDGETS ---
 
-  static Widget _buildSectionHeader(String title, bool isDesktop) {
+  static Widget _buildSectionHeader(
+      BuildContext context,
+      String title,
+      bool isDesktop,
+      ) {
     return Column(
       crossAxisAlignment: isDesktop
           ? CrossAxisAlignment.start
           : CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Text(
           title,
           style: GoogleFonts.openSans(
             color: Colors.white,
-            fontSize: 16.sp,
+            fontSize: context.responsiveSize(15, 16),
             fontWeight: FontWeight.bold,
+            letterSpacing: 0.5,
           ),
         ),
-        SizedBox(height: 8.h),
+        SizedBox(height: context.responsiveHeight(6, 8)),
         GlobalWidgets.customDivider(
-          height: 2.h,
-          width: 150.w,
+          height: 2,
+          width: context.responsiveWidth(120, 150),
           color: const Color(0xFFD9950B),
         ),
       ],
     );
   }
 
-  static Widget _buildFooterLink(String text) {
+  static Widget _buildFooterLink(BuildContext context, String text) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 8.h),
+      padding: EdgeInsets.only(
+        bottom: context.responsiveHeight(6, 8),
+      ),
       child: Text(
         text,
         style: GoogleFonts.openSans(
           color: Colors.white,
-          fontSize: 16.sp,
-          height: 1.5.h,
+          fontSize: context.responsiveSize(14, 16),
+          height: 1.5,
         ),
       ),
     );
   }
 
-  static Widget _buildSocialIcon(IconData icon) {
+  static Widget _buildSocialIcon(BuildContext context, IconData icon) {
     return Container(
-      padding: EdgeInsets.all(8.r),
+      padding: EdgeInsets.all(context.responsiveSize(8, 10)),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        border: Border.all(color: Colors.white, width: 1.w),
+        border: Border.all(color: Colors.white, width: 1),
       ),
-      child: Icon(icon, color: Colors.white, size: 18.sp),
+      child: Icon(
+        icon,
+        color: Colors.white,
+        size: context.responsiveSize(16, 18),
+      ),
     );
   }
 
-  static Widget _buildContactRow(IconData icon, String text, bool isDesktop) {
-    // For mobile, we want MainAxisAlignment.center to align content in the middle
+  static Widget _buildContactRow(
+      BuildContext context,
+      IconData icon,
+      String text,
+      bool isDesktop,
+      ) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: isDesktop
           ? MainAxisAlignment.start
           : MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Center(child: Icon(icon, color: Colors.white, size: 16.sp)),
-        SizedBox(width: 12.w),
+        Icon(
+          icon,
+          color: Colors.white,
+          size: context.responsiveSize(14, 16),
+        ),
+        SizedBox(width: context.responsiveWidth(10, 12)),
         Flexible(
           child: Text(
             text,
             style: GoogleFonts.openSans(
               color: Colors.white,
-              fontSize: 16.sp,
-              height: 1.5.h,
+              fontSize: context.responsiveSize(13, 16),
+              height: 1.5,
             ),
             textAlign: isDesktop ? TextAlign.left : TextAlign.center,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],
