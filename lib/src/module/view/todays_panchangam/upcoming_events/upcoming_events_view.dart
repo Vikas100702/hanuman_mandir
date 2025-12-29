@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hanuman_mandir/src/core/const/app_colors.dart';
 import 'package:hanuman_mandir/src/core/const/endpoints/endpoints.dart';
-import 'package:hanuman_mandir/src/core/widgets/responsive_view.dart';
+import 'package:hanuman_mandir/src/core/utils/style_extension.dart';
 import 'package:hanuman_mandir/src/data/services/todays_panchangam/upcoming_events/upcoming_events_service.dart';
 import 'package:hanuman_mandir/src/module/controller/todays_panchangam/upcoming_events/upcoming_events_controller.dart';
 import 'package:hanuman_mandir/src/module/view/todays_panchangam/widgets/todays_panchangam_widgets.dart';
@@ -35,8 +35,8 @@ class UpcomingEventsView extends StatelessWidget {
 
     return Obx(() {
       if (upcomingEventsController.isLoading.value) {
-        return const SizedBox(
-          height: 250,
+        return SizedBox(
+          height: context.responsiveHeight(200, 250),
           child: Center(child: CircularProgressIndicator()),
         );
       }
@@ -46,107 +46,112 @@ class UpcomingEventsView extends StatelessWidget {
         return const SizedBox.shrink();
       }
 
-      return Container(
-        padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
-        width: double.infinity,
-        color: const Color(0xFFF5F5DC),
-        child: ResponsiveView(
-          mobile: _buildContent(upcomingEventsController, isMobile: true),
-          desktop: _buildContent(upcomingEventsController, isMobile: false),
-        ),
-      );
-    });
-  }
-
-  Widget _buildContent(
-    UpcomingEventsController controller, {
-    required bool isMobile,
-  }) {
-    // Determine height based on device
-    final double cardHeight = isMobile ? 500 : 450;
-
-    return Padding(
-      padding: const EdgeInsets.all(16.0), // Outer padding
-      child: TodaysPanchangamWidgets.panchangamCards(
+      return TodaysPanchangamWidgets.panchangamCards(
+        context: context,
         title: "Upcoming Events",
-        height: cardHeight,
         child: ListView.separated(
-          primary: false,
-          shrinkWrap: true,
-          itemCount: controller.upcomingEventsDataList.length,
+          physics: const ClampingScrollPhysics(),
+          itemCount: upcomingEventsController.upcomingEventsDataList.length,
           separatorBuilder: (context, index) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: .0),
+            padding: EdgeInsets.symmetric(
+              vertical: context.responsiveHeight(8, 10),
+            ),
             child: Divider(
-              color: Colors.grey.withValues(alpha: 0.3),
+              color: Colors.grey.withOpacity(0.3),
               thickness: 1,
               height: 1,
             ),
           ),
           itemBuilder: (context, index) {
-            final event = controller.upcomingEventsDataList[index];
+            final event = upcomingEventsController.upcomingEventsDataList[index];
 
-            // Assuming event object has name, date, etc.
-            // Adjust fields based on your actual model structure.
-            return Column(
-              // crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: .start,
-              // mainAxisSize: .min,
-              children: [
-                // Event Name (Styled like 'Navagraha and Nagadevi Prathista')
-                Row(
-                  children: [
-                    if (event.image != null && event.image!.isNotEmpty)
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: ImageNetwork(
-                            image: "${Endpoints.globalUrl}${event.image}",
-                            height: 80,
-                            width: 80,
-                            fitAndroidIos: BoxFit.contain,
-                            fitWeb: BoxFitWeb.contain,
+            return Container(
+              padding: EdgeInsets.symmetric(
+                vertical: context.responsiveHeight(4, 6),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Image with fixed constraints
+                  if (event.image != null && event.image!.isNotEmpty)
+                    Container(
+                      width: context.responsiveSize(70, 80),
+                      height: context.responsiveSize(70, 80),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: Colors.grey.withOpacity(0.3),
+                          width: 1,
+                        ),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: ImageNetwork(
+                          image: "${Endpoints.globalUrl}${event.image}",
+                          width: context.responsiveSize(70, 80),
+                          height: context.responsiveSize(70, 80),
+                          fitAndroidIos: BoxFit.cover,
+                          fitWeb: BoxFitWeb.cover,
+                          onLoading: Center(
+                            child: SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            ),
+                          ),
+                          onError: Icon(
+                            Icons.image_not_supported,
+                            color: Colors.grey,
+                            size: 30,
                           ),
                         ),
                       ),
-                    SizedBox(width: 10),
-                    Column(
-                      mainAxisAlignment: .start,
-                      crossAxisAlignment: .start,
+                    ),
+
+                  SizedBox(width: context.responsiveWidth(10, 12)),
+
+                  // Text content with Expanded to prevent overflow
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
+                        // Event Title
                         Text(
-                          ((event.refDataName)?.trim() ?? 'Event Name'),
-                          // "Event Name",
-                          textAlign: TextAlign.left,
+                          (event.refDataName?.trim() ?? 'Event Name'),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.openSans(
-                            fontSize: 14,
+                            fontSize: context.responsiveSize(13, 14),
                             fontWeight: FontWeight.bold,
                             color: AppColors.black,
+                            height: 1.3,
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        SizedBox(height: context.responsiveHeight(4, 6)),
 
-                        // Date Range (e.g., Mar 08 - Dec 31)
+                        // Date Range
                         Text(
-                          "${_formatDate((event.startDate)?.trim())} - ${_formatDate((event.endDate)?.trim())}",
-                          textAlign: .left,
-                          // "Date Range",
+                          "${_formatDate(event.startDate?.trim())} - ${_formatDate(event.endDate?.trim())}",
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.openSans(
-                            fontSize: 11,
-                            color: AppColors.black,
+                            fontSize: context.responsiveSize(11, 12),
+                            color: AppColors.black.withOpacity(0.7),
                             fontWeight: FontWeight.w500,
+                            height: 1.3,
                           ),
                         ),
-                        // const SizedBox(height: 4),
                       ],
                     ),
-                  ],
-                ),
-              ],
+                  ),
+                ],
+              ),
             );
           },
         ),
-      ),
-    );
+      );
+    });
   }
 }
