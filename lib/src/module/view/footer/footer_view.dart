@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hanuman_mandir/src/core/const/app_colors.dart';
@@ -49,11 +47,13 @@ class FooterView extends StatelessWidget {
         padding: EdgeInsets.symmetric(
           vertical: context.responsiveHeight(40, 50),
           horizontal: context.responsiveWidth(20, 40),
-        ),        width: double.infinity,
+        ),
+        width: double.infinity,
         color: AppColors.darkRed,
         child: ResponsiveView(
           mobile: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: .center,
+            crossAxisAlignment: .center,
             children: [
               // Spread operator for mobile list
               ...FooterWidgets.buildFooterContent(
@@ -65,24 +65,20 @@ class FooterView extends StatelessWidget {
                 (widget) => Padding(
                   padding: EdgeInsets.only(
                     bottom: context.responsiveHeight(35, 40),
-                  ),                  child: widget,
+                  ),
+                  child: widget,
                 ),
               ),
             ],
           ),
-          desktop: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: IntrinsicHeight(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: FooterWidgets.buildFooterContent(
-                  context: context,
-                  isDesktop: true,
-                  data: footerData,
-                  logoUrl: logoUrl,
-                ),
-              ),
+          desktop: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: FooterWidgets.buildFooterContent(
+              context: context,
+              isDesktop: true,
+              data: footerData,
+              logoUrl: logoUrl,
             ),
           ),
         ),
