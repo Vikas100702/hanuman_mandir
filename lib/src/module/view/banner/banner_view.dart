@@ -32,30 +32,29 @@ class BannerView extends StatelessWidget {
         return const SizedBox.shrink();
       }
 
-      // Use LayoutBuilder to determine constraints for the Carousel height
-      return LayoutBuilder(
-        builder: (context, constraints) {
-          final bool isMobile = ResponsiveView.isMobile(context);
-          final height = MediaQuery.of(context).size.height;
-          // Calculate height: 75% of screen for mobile, and 60% for desktop
-          final double carouselHeight =
-          isMobile ? height * 0.75 : height * 0.60;
+      // Get screen dimensions
+      final screenHeight = MediaQuery.of(context).size.height;
+      final isMobile = context.isMobile;
 
-          return CarouselSlider(
-            options: CarouselOptions(
-              height: carouselHeight,
-              viewportFraction: 1.0,
-              autoPlay: true,
-              autoPlayInterval: const Duration(seconds: 3),
-              enableInfiniteScroll: true,
-              autoPlayAnimationDuration: const Duration(milliseconds: 800),
-              autoPlayCurve: Curves.fastOutSlowIn,
-            ),
-            items: bannerController.bannerDataList.map((Datum data) {
-              return BannerWidgets.buildBannerItem(context, data);
-            }).toList(),
-          );
-        },
+      // Calculate carousel height (same as in banner_widgets.dart)
+      final carouselHeight = isMobile
+          ? screenHeight *
+                0.75 // 75% for mobile
+          : screenHeight * 0.6; // 60% for desktop
+
+      return CarouselSlider(
+        options: CarouselOptions(
+          height: carouselHeight,
+          viewportFraction: 1.0,
+          autoPlay: true,
+          autoPlayInterval: const Duration(seconds: 3),
+          enableInfiniteScroll: true,
+          autoPlayAnimationDuration: const Duration(milliseconds: 800),
+          autoPlayCurve: Curves.fastOutSlowIn,
+        ),
+        items: bannerController.bannerDataList.map((Datum data) {
+          return BannerWidgets.buildBannerItem(context, data);
+        }).toList(),
       );
     });
   }
