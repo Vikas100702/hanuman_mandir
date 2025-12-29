@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hanuman_mandir/src/core/const/app_colors.dart';
+import 'package:hanuman_mandir/src/core/utils/style_extension.dart';
 import 'package:hanuman_mandir/src/core/widgets/responsive_view.dart';
 import 'package:hanuman_mandir/src/data/services/footer/footer_service.dart';
 import 'package:hanuman_mandir/src/data/services/header/header_service.dart';
@@ -28,8 +29,8 @@ class FooterView extends StatelessWidget {
 
     return Obx(() {
       if (footerController.isLoading.value) {
-        return const SizedBox(
-          height: 250,
+        return SizedBox(
+          height: context.responsiveHeight(200, 250),
           child: Center(child: CircularProgressIndicator()),
         );
       }
@@ -45,8 +46,10 @@ class FooterView extends StatelessWidget {
       }
 
       return Container(
-        padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
-        width: double.infinity,
+        padding: EdgeInsets.symmetric(
+          vertical: context.responsiveHeight(40, 50),
+          horizontal: context.responsiveWidth(20, 40),
+        ),        width: double.infinity,
         color: AppColors.darkRed,
         child: ResponsiveView(
           mobile: Column(
@@ -54,24 +57,32 @@ class FooterView extends StatelessWidget {
             children: [
               // Spread operator for mobile list
               ...FooterWidgets.buildFooterContent(
+                context: context,
                 isDesktop: false,
                 data: footerData,
                 logoUrl: logoUrl,
               ).map(
                 (widget) => Padding(
-                  padding: const EdgeInsets.only(bottom: 40),
-                  child: widget,
+                  padding: EdgeInsets.only(
+                    bottom: context.responsiveHeight(35, 40),
+                  ),                  child: widget,
                 ),
               ),
             ],
           ),
-          desktop: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: FooterWidgets.buildFooterContent(
-              isDesktop: true,
-              data: footerData,
-              logoUrl: logoUrl,
+          desktop: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: FooterWidgets.buildFooterContent(
+                  context: context,
+                  isDesktop: true,
+                  data: footerData,
+                  logoUrl: logoUrl,
+                ),
+              ),
             ),
           ),
         ),
