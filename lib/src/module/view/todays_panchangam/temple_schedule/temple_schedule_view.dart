@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hanuman_mandir/src/core/const/app_colors.dart';
+import 'package:hanuman_mandir/src/core/utils/style_extension.dart';
 import 'package:hanuman_mandir/src/core/widgets/responsive_view.dart';
 import 'package:hanuman_mandir/src/module/model/todays_panchangam/temple_schedule/temple_schedule_model.dart';
 import 'package:hanuman_mandir/src/data/services/todays_panchangam/temple_schedule/temple_schedule_service.dart';
@@ -14,14 +15,13 @@ class TempleScheduleView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TempleScheduleController templeScheduleController =
-        Get.put(TempleScheduleController(
-          templeScheduleService: TempleScheduleService(),
-        ));
+    final TempleScheduleController templeScheduleController = Get.put(
+      TempleScheduleController(templeScheduleService: TempleScheduleService()),
+    );
     return Obx(() {
       if (templeScheduleController.isLoading.value) {
         return SizedBox(
-          height: 250.h,
+          height: context.responsiveHeight(200, 250),
           child: Center(child: CircularProgressIndicator()),
         );
       }
@@ -30,19 +30,55 @@ class TempleScheduleView extends StatelessWidget {
         return const SizedBox.shrink();
       }
 
-      return Container(
-        padding: EdgeInsets.symmetric(vertical: 50.h, horizontal: 20.w),
-        width: double.infinity,
-        color: const Color(0xFFF5F5DC),
-        child: ResponsiveView(
-          mobile: _buildContent(templeScheduleController, isMobile: true),
-          desktop: _buildContent(templeScheduleController, isMobile: false),
+      return TodaysPanchangamWidgets.panchangamCards(
+        context: context,
+        title: "Temple Schedules",
+        child: Column(
+          children: [
+            _buildTabSection(context, templeScheduleController),
+            SizedBox(height: context.responsiveHeight(10, 15)),
+
+            Expanded(
+              child: Obx(() {
+                final List<Datum> currentList = templeScheduleController.currentDisplayList;
+
+                if (currentList.isEmpty) {
+                  return Center(
+                    child: Text(
+                      "No schedules found for ${templeScheduleController.selectedCategory.value}",
+                      style: GoogleFonts.openSans(color: Colors.grey),
+                    ),
+                  );
+                }
+
+                return ListView.separated(
+                  physics: const ClampingScrollPhysics(),
+                  itemCount: currentList.length,
+                  separatorBuilder: (context, index) => Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: context.responsiveHeight(12, 15),
+                    ),
+                    child: Divider(
+                      color: Colors.grey.withOpacity(0.3),
+                      thickness: 1,
+                      height: 1,
+                    ),
+                  ),
+                  itemBuilder: (context, index) {
+                    final schedule = currentList[index];
+                    return _buildScheduleItem(context, schedule);
+                  },
+                );
+              }),
+            ),
+          ],
         ),
       );
     });
   }
 
-  Widget _buildContent(
+  /*Widget _buildContent(
+    BuildContext context,
     TempleScheduleController controller, {
     required bool isMobile,
   }) {
@@ -52,6 +88,7 @@ class TempleScheduleView extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(16.r), // Outer padding
       child: TodaysPanchangamWidgets.panchangamCards(
+        context: context,
         title: "Temple Schedules",
         height: cardHeight,
         child: Column(
@@ -96,40 +133,43 @@ class TempleScheduleView extends StatelessWidget {
         ),
       ),
     );
-  }
+  }*/
 
-  Widget _buildTabSection(TempleScheduleController controller) {
+  Widget _buildTabSection(BuildContext context, TempleScheduleController controller) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10.h),
-      child: Row(
+      padding: EdgeInsets.symmetric(
+        vertical: context.responsiveHeight(10, 12),
+      ),      child: Row(
         mainAxisAlignment: .center,
         children: [
-          _buildTabButton("DAILY", controller),
-          SizedBox(width: 10.w),
-          _buildTabButton("WEEKLY", controller),
-          SizedBox(width: 10.w),
-          _buildTabButton("MONTHLY", controller),
+          _buildTabButton(context, "DAILY", controller),
+          SizedBox(width: context.responsiveWidth(10, 12)),
+          _buildTabButton(context, "WEEKLY", controller),
+          SizedBox(width: context.responsiveWidth(10, 12)),
+          _buildTabButton(context, "MONTHLY", controller),
         ],
       ),
     );
   }
 
-  Widget _buildTabButton(String label, TempleScheduleController controller) {
+  Widget _buildTabButton(BuildContext context, String label, TempleScheduleController controller) {
     return Obx(() {
       bool isSelected = controller.selectedCategory.value == label;
 
       return InkWell(
         onTap: () => controller.updateCategory(label),
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-          decoration: BoxDecoration(
+          padding: EdgeInsets.symmetric(
+            horizontal: context.responsiveWidth(16, 20),
+            vertical: context.responsiveHeight(8, 10),
+          ),          decoration: BoxDecoration(
             color: isSelected ? const Color(0xFF004D40) : Colors.grey[300],
             // Dark Green vs Grey
-            borderRadius: BorderRadius.circular(4.r),
+            borderRadius: BorderRadius.circular(4),
             border: isSelected
                 ? Border.all(
                     color: Colors.amber,
-                    width: 2.w,
+                    width: 2,
                   ) // Gold border for active
                 : null,
           ),
@@ -138,7 +178,7 @@ class TempleScheduleView extends StatelessWidget {
             style: GoogleFonts.openSans(
               color: isSelected ? Colors.white : Colors.black87,
               fontWeight: FontWeight.bold,
-              fontSize: 14.sp,
+              fontSize: context.responsiveSize(13, 14),
             ),
           ),
         ),
@@ -146,7 +186,7 @@ class TempleScheduleView extends StatelessWidget {
     });
   }
 
-  Widget _buildScheduleItem(Datum schedule) {
+  Widget _buildScheduleItem(BuildContext context, Datum schedule) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       // Align left like screenshot
@@ -154,16 +194,16 @@ class TempleScheduleView extends StatelessWidget {
         Text(
           schedule.refDataName?.trim() ?? 'Event Name',
           style: GoogleFonts.openSans(
-            fontSize: 18, // Adjusted to look like screenshot
+            fontSize: context.responsiveSize(16, 18),
             fontWeight: FontWeight.bold,
             color: const Color(0xFF8B2323),
           ),
         ),
-        const SizedBox(height: 4),
+        SizedBox(height: context.responsiveHeight(4, 6)),
         Text(
           schedule.timing ?? "Timing",
           style: GoogleFonts.openSans(
-            fontSize: 14,
+            fontSize: context.responsiveSize(13, 14),
             color: AppColors.primaryRed,
             fontWeight: FontWeight.w500,
           ),
