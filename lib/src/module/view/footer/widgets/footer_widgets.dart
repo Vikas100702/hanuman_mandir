@@ -6,6 +6,7 @@ import 'package:hanuman_mandir/src/module/model/footer/footer_model.dart';
 import 'package:hanuman_mandir/src/module/view/footer/widgets/footer_audio_player.dart';
 import 'package:hanuman_mandir/src/module/view/global_widgets/global_widgets.dart';
 import 'package:image_network/image_network.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FooterWidgets {
   // MAIN CONTENT BUILDER
@@ -15,6 +16,22 @@ class FooterWidgets {
     Datum? data,
     String? logoUrl,
   }) {
+    Future<void> launchFacebookUrl() async {
+      final Uri facebookUrl = Uri.parse("${data?.facebookLink}");
+
+      if (!await launchUrl(facebookUrl, mode: LaunchMode.externalApplication)) {
+        throw Exception('Could not launch $facebookUrl');
+      }
+    }
+
+    Future<void> launchYoutubeUrl() async {
+      final Uri facebookUrl = Uri.parse("${data?.youtubeLink}");
+
+      if (!await launchUrl(facebookUrl, mode: LaunchMode.externalApplication)) {
+        throw Exception('Could not launch $facebookUrl');
+      }
+    }
+
     return [
       // 1. LOGO & AUDIO SECTION
       Column(
@@ -23,27 +40,27 @@ class FooterWidgets {
           Container(
             height: isDesktop ? 120 : context.responsiveHeight(100, 120),
             width: isDesktop ? 120 : context.responsiveWidth(100, 120),
-            margin: EdgeInsets.only(
-              bottom: context.responsiveHeight(15, 20),
-            ),
+            margin: EdgeInsets.only(bottom: context.responsiveHeight(15, 20)),
             child: (logoUrl != null && logoUrl.isNotEmpty)
                 ? ImageNetwork(
-              image: "${Endpoints.globalUrl}$logoUrl",
-              height: isDesktop ? 120 : context.responsiveHeight(100, 120),
-              width: isDesktop ? 120 : context.responsiveWidth(100, 120),
-              fitAndroidIos: BoxFit.contain,
-              fitWeb: BoxFitWeb.contain,
-              onError: Icon(Icons.error, color: Colors.white),
-            )
+                    image: "${Endpoints.globalUrl}$logoUrl",
+                    height: isDesktop
+                        ? 120
+                        : context.responsiveHeight(100, 120),
+                    width: isDesktop ? 120 : context.responsiveWidth(100, 120),
+                    fitAndroidIos: BoxFit.contain,
+                    fitWeb: BoxFitWeb.contain,
+                    onError: Icon(Icons.error, color: Colors.white),
+                  )
                 : Image.asset(
-              "assets/images/left_header_logo.png",
-              fit: BoxFit.contain,
-              errorBuilder: (context, error, stackTrace) {
-                return const Center(
-                  child: Icon(Icons.error, color: Colors.white),
-                );
-              },
-            ),
+                    "assets/images/left_header_logo.png",
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Center(
+                        child: Icon(Icons.error, color: Colors.white),
+                      );
+                    },
+                  ),
           ),
 
           // Audio Player Section
@@ -85,6 +102,7 @@ class FooterWidgets {
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: .start,
               children: [
                 // Weekdays
                 Row(
@@ -124,11 +142,7 @@ class FooterWidgets {
                   ],
                 ),
                 SizedBox(height: context.responsiveHeight(8, 10)),
-                Divider(
-                  color: Colors.white30,
-                  height: 1,
-                  thickness: 1,
-                ),
+                Divider(color: Colors.white30, height: 1, thickness: 1),
                 SizedBox(height: context.responsiveHeight(8, 10)),
                 // Weekends
                 Row(
@@ -186,9 +200,17 @@ class FooterWidgets {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _buildSocialIcon(context, Icons.facebook),
+                  _buildSocialIcon(
+                    context,
+                    Icons.facebook,
+                    () => launchFacebookUrl() as Function(),
+                  ),
                   SizedBox(width: context.responsiveWidth(12, 15)),
-                  _buildSocialIcon(context, Icons.video_library_rounded),
+                  _buildSocialIcon(
+                    context,
+                    Icons.video_library_rounded,
+                    () => launchYoutubeUrl(),
+                  ),
                 ],
               ),
             ],
@@ -227,7 +249,8 @@ class FooterWidgets {
           _buildContactRow(
             context,
             Icons.location_on,
-            data?.refDataCode ?? "390 Cumming Street Suite B,\nAlpharetta, GA 30004",
+            data?.refDataCode ??
+                "390 Cumming Street Suite B,\nAlpharetta, GA 30004",
             isDesktop,
           ),
           SizedBox(height: context.responsiveHeight(12, 15)),
@@ -259,10 +282,10 @@ class FooterWidgets {
   // --- HELPER WIDGETS ---
 
   static Widget _buildSectionHeader(
-      BuildContext context,
-      String title,
-      bool isDesktop,
-      ) {
+    BuildContext context,
+    String title,
+    bool isDesktop,
+  ) {
     return Column(
       crossAxisAlignment: isDesktop
           ? CrossAxisAlignment.start
@@ -290,9 +313,7 @@ class FooterWidgets {
 
   static Widget _buildFooterLink(BuildContext context, String text) {
     return Padding(
-      padding: EdgeInsets.only(
-        bottom: context.responsiveHeight(6, 8),
-      ),
+      padding: EdgeInsets.only(bottom: context.responsiveHeight(6, 8)),
       child: Text(
         text,
         style: GoogleFonts.openSans(
@@ -304,39 +325,40 @@ class FooterWidgets {
     );
   }
 
-  static Widget _buildSocialIcon(BuildContext context, IconData icon) {
+  static Widget _buildSocialIcon(
+    BuildContext context,
+    IconData icon,
+    Function() onPressed,
+  ) {
     return Container(
       padding: EdgeInsets.all(context.responsiveSize(8, 10)),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(color: Colors.white, width: 1),
       ),
-      child: Icon(
-        icon,
+      child: IconButton(
+        onPressed: onPressed,
+        icon: Icon(icon, size: context.responsiveSize(18, 22)),
         color: Colors.white,
-        size: context.responsiveSize(16, 18),
+        // iconSize: context.responsiveSize(16, 18),
       ),
     );
   }
 
   static Widget _buildContactRow(
-      BuildContext context,
-      IconData icon,
-      String text,
-      bool isDesktop,
-      ) {
+    BuildContext context,
+    IconData icon,
+    String text,
+    bool isDesktop,
+  ) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: isDesktop
           ? MainAxisAlignment.start
           : MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Icon(
-          icon,
-          color: Colors.white,
-          size: context.responsiveSize(14, 16),
-        ),
+        Icon(icon, color: Colors.white, size: context.responsiveSize(14, 16)),
         SizedBox(width: context.responsiveWidth(10, 12)),
         Flexible(
           child: Text(
