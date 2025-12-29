@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hanuman_mandir/src/core/const/app_colors.dart';
+import 'package:hanuman_mandir/src/core/const/endpoints/endpoints.dart';
 import 'package:hanuman_mandir/src/core/utils/style_extension.dart';
 import 'package:hanuman_mandir/src/data/services/todays_panchangam/special_events/special_events_service.dart';
 import 'package:hanuman_mandir/src/module/controller/todays_panchangam/special_events/special_events_controller.dart';
 import 'package:hanuman_mandir/src/module/view/todays_panchangam/widgets/todays_panchangam_widgets.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SpecialEventsView extends StatelessWidget {
   const SpecialEventsView({super.key});
@@ -48,6 +50,15 @@ class SpecialEventsView extends StatelessWidget {
           itemBuilder: (context, index) {
             final event = specialEventsController.specialEventsDataList[index];
 
+            Future<void> launchPdfUrl() async {
+              final Uri pdfUrl = Uri.parse("${Endpoints.globalUrl}${event.flyerLink}");
+
+              if(!await launchUrl(pdfUrl, mode: LaunchMode.inAppBrowserView)) {
+                throw Exception('Could not launch $pdfUrl');
+
+              }
+            }
+
             return Column(
               crossAxisAlignment: .center,
               children: [
@@ -72,7 +83,7 @@ class SpecialEventsView extends StatelessWidget {
                 ),
                 SizedBox(height: context.responsiveHeight(4, 6)),
                 InkWell(
-                  onTap: () {},
+                  onTap: () => launchPdfUrl(),
                   child: Text(
                     event.refDataName ?? 'View Details',
                     textAlign: TextAlign.center,
