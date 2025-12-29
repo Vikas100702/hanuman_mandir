@@ -16,6 +16,18 @@ extension UIContentExt on BuildContext {
 
   double get screenWidth => MediaQuery.of(this).size.width;
 
+  double responsiveSize(double mobileSize, double desktopSize) {
+    return isMobile ? mobileSize.sp : desktopSize;
+  }
+
+  double responsiveWidth(double mobileWidth, double desktopWidth) {
+    return isMobile ? mobileWidth.w : desktopWidth;
+  }
+
+  double responsiveHeight(double mobileHeight, double desktopHeight) {
+    return isMobile ? mobileHeight.h : desktopHeight;
+  }
+
   // --- Dynamic Text Styles ---
   TextStyle get headerTitleStyle => GoogleFonts.openSans(
     fontSize: isMobile ? 28.sp : 40,
@@ -23,8 +35,8 @@ extension UIContentExt on BuildContext {
     color: AppColors.textWhite,
     shadows: [
       Shadow(
-        offset: Offset(2.w, 2.h),
-        blurRadius: 3.r,
+        offset: Offset(2, 2),
+        blurRadius: 3,
         color: AppColors.shadowDark,
       ),
     ],
@@ -78,7 +90,7 @@ extension IntExt on int {
 extension StringExtensions on String {
   String isCapitalizeFirst() {
     if (isEmpty) return "";
-    return "${this[0].toUpperCase()}${this.substring(1)}";
+    return "${this[0].toUpperCase()}${substring(1)}";
   }
 
   String toFixedString() {
@@ -103,7 +115,7 @@ extension StringExtensions on String {
   }
 
   String replaceBackslash() {
-    return this.replaceAll(RegExp(r'\n'), "");
+    return replaceAll(RegExp(r'\n'), "");
   }
 }
 
@@ -200,7 +212,7 @@ extension ThemeExt on BuildContext {
     boxShadow: [
       BoxShadow(
         blurRadius: 12.0,
-        spreadRadius: 10.r,
+        spreadRadius: 10,
         color: appColor.shadowColor.withOpacity(0.2),
         offset: const Offset(1, 1),
       ),
@@ -243,9 +255,9 @@ extension ContextExtension on BuildContext {
 /// Color scheme extensions
 extension ColorExtension on String {
   toColor() {
-    var hexColor = this.replaceAll("#", "");
+    var hexColor = replaceAll("#", "");
     if (hexColor.length == 6) {
-      hexColor = "FF" + hexColor;
+      hexColor = "FF$hexColor";
     }
     if (hexColor.length == 8) {
       return Color(int.parse("0x$hexColor"));
