@@ -6,6 +6,7 @@ import 'package:hanuman_mandir/src/core/const/app_colors.dart';
 import 'package:hanuman_mandir/src/core/const/app_menu_config.dart';
 import 'package:hanuman_mandir/src/core/const/endpoints/endpoints.dart';
 import 'package:hanuman_mandir/src/core/utils/style_extension.dart';
+import 'package:hanuman_mandir/src/core/widgets/app_image.dart';
 import 'package:hanuman_mandir/src/core/widgets/responsive_view.dart';
 import 'package:hanuman_mandir/src/data/services/header/header_service.dart';
 import 'package:hanuman_mandir/src/module/controller/header/header_controller.dart';
@@ -17,9 +18,7 @@ class HeaderView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final HeaderController headerController = Get.put(
-      HeaderController(headerService: HeaderService()),
-    );
+    final HeaderController headerController = Get.find<HeaderController>();
 
     return Obx(() {
       if (headerController.isLoading.value) {
@@ -402,14 +401,20 @@ class HeaderView extends StatelessWidget {
         border: Border.all(color: AppColors.gold, width: 2),
       ),
       child: ClipOval(
-        child: ImageNetwork(
+        child: AppImage(
+          imageUrl: url,
+          width: size,
+          height: size,
+          fit: .contain,
+        ),
+        /*child: ImageNetwork(
           image: url,
           height: size,
           width: size,
           fitAndroidIos: BoxFit.contain,
           fitWeb: BoxFitWeb.contain,
           onError: const Icon(Icons.error),
-        ),
+        ),*/
       ),
     );
   }
