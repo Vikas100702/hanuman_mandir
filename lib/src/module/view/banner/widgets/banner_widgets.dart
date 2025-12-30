@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hanuman_mandir/src/core/const/app_colors.dart';
 import 'package:hanuman_mandir/src/core/const/endpoints/endpoints.dart';
 import 'package:hanuman_mandir/src/core/utils/style_extension.dart';
+import 'package:hanuman_mandir/src/core/widgets/app_image.dart';
 import 'package:hanuman_mandir/src/core/widgets/responsive_view.dart';
 import 'package:hanuman_mandir/src/module/model/banner/banner_model.dart';
 import 'package:image_network/image_network.dart';
@@ -28,7 +29,12 @@ class BannerWidgets {
 
   /// Full image banner (no text)
   static Widget _buildFullImage(BuildContext context, String imageUrl) {
-    return LayoutBuilder(
+    return SizedBox(
+      width: .infinity,
+      height: .infinity,
+      child: AppImage(imageUrl: imageUrl, fit: .cover),
+    );
+    /*return LayoutBuilder(
       builder: (context, constraints) {
         // Use constraints from parent (carousel)
         return SizedBox(
@@ -54,7 +60,7 @@ class BannerWidgets {
           ),
         );
       },
-    );
+    );*/
   }
 
   static Widget _buildDesktopLayout(BuildContext context, Datum data, String imageUrl) {
@@ -67,10 +73,11 @@ class BannerWidgets {
         return Row(
           children: [
             // Image Side
-            Container(
+            SizedBox(
               width: halfWidth,
               height: fullHeight,
-              child: ImageNetwork(
+              child: AppImage(imageUrl: imageUrl, fit: BoxFit.cover),
+              /*child: ImageNetwork(
                 image: imageUrl,
                 width: halfWidth,
                 height: fullHeight,
@@ -87,10 +94,10 @@ class BannerWidgets {
                   color: AppColors.errorColor,
                   size: 50,
                 ),
-              ),
+              ),*/
             ),
             // Text Side
-            Container(
+            SizedBox(
               width: halfWidth,
               height: fullHeight,
               child: _buildTextContainer(context, data, isMobile: false),
@@ -108,16 +115,17 @@ class BannerWidgets {
         final fullHeight = constraints.maxHeight;
 
         // Image takes 60% of height, text takes 40%
-        final imageHeight = fullHeight * 0.6;
-        final textHeight = fullHeight * 0.4;
+        final imageHeight = fullHeight * 0.75;
+        final textHeight = fullHeight * 0.25;
 
         return Column(
           children: [
             // Image Section
-            Container(
+            SizedBox(
               width: fullWidth,
               height: imageHeight,
-              child: ImageNetwork(
+              child: AppImage(imageUrl: imageUrl, fit: BoxFit.cover),
+              /*child: ImageNetwork(
                 image: imageUrl,
                 width: fullWidth,
                 height: imageHeight,
@@ -134,10 +142,10 @@ class BannerWidgets {
                   color: AppColors.errorColor,
                   size: 50,
                 ),
-              ),
+              ),*/
             ),
             // Text Section
-            Container(
+            SizedBox(
               width: fullWidth,
               height: textHeight,
               child: _buildTextContainer(context, data, isMobile: true),
