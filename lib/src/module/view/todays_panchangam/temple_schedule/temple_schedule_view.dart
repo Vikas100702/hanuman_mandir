@@ -15,9 +15,7 @@ class TempleScheduleView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TempleScheduleController templeScheduleController = Get.put(
-      TempleScheduleController(templeScheduleService: TempleScheduleService()),
-    );
+    final TempleScheduleController templeScheduleController = Get.find<TempleScheduleController>();
     return Obx(() {
       if (templeScheduleController.isLoading.value) {
         return SizedBox(
