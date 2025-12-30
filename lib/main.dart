@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:hanuman_mandir/src/module/binding/home_binding.dart';
 import 'package:hanuman_mandir/src/module/view/header/header_view.dart';
 import 'package:hanuman_mandir/src/module/view/home_view.dart';
 
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Sri Hanuman',
+          initialBinding: HomeBinding(),
           theme: ThemeData(
             colorScheme: .fromSeed(seedColor: Colors.deepPurple),
             textTheme: Typography.englishLike2018.apply(
