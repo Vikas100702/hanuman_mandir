@@ -13,7 +13,7 @@ class BackgroundMusicController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchBackgroundMusicData();
+    // fetchBackgroundMusicData();
   }
 
   Future<void> fetchBackgroundMusicData() async {
