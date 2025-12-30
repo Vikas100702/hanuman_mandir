@@ -15,7 +15,7 @@ class UpcomingEventsController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchUpcomingEventsData();
+    // fetchUpcomingEventsData();
   }
 
   Future<void> fetchUpcomingEventsData() async {
