@@ -12,7 +12,7 @@ class FooterController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchFooterData();
+    // fetchFooterData();
   }
 
   Future<void> fetchFooterData() async {
