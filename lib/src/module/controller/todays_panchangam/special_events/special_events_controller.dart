@@ -15,7 +15,7 @@ class SpecialEventsController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchSpecialEventsData();
+    // fetchSpecialEventsData();
   }
 
   Future<void> fetchSpecialEventsData() async {
