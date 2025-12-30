@@ -101,7 +101,7 @@ class AboutView extends StatelessWidget {
           width: 1050,
           fit: .contain,
         ),
-        SizedBox(height: context.responsiveHeight(20, 30)),
+        SizedBox(height: context.responsiveHeight(20, 25)),
 
         // Body Text
         Text(
@@ -110,6 +110,7 @@ class AboutView extends StatelessWidget {
           style: GoogleFonts.openSans(
             color: AppColors.black,
             fontSize: context.responsiveSize(14, 16),
+            fontWeight: .w600,
             height: 1.6,
           ),
         ),
@@ -163,17 +164,11 @@ class AboutView extends StatelessWidget {
         // Buttons
         SizedBox(height: context.responsiveHeight(20, 30)),
         Row(
+          mainAxisAlignment: .spaceEvenly,
           children: [
-            Wrap(
-              spacing: 15,
-              runSpacing: 15,
-              alignment: WrapAlignment.end,
-              children: [
-                _buildOutlineButton(context, "KNOW MORE"),
-                _buildOutlineButton(context, "ABOUT DEITIES"),
-                _buildOutlineButton(context, "GENERAL INFO"),
-              ],
-            ),
+            _buildOutlineButton(context, "KNOW MORE"),
+            _buildOutlineButton(context, "ABOUT DEITIES"),
+            _buildOutlineButton(context, "GENERAL INFO"),
           ],
         ),
       ],

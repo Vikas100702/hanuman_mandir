@@ -98,8 +98,8 @@ class BannerWidgets {
         final fullHeight = constraints.maxHeight;
 
         // Image takes 60% of height, text takes 40%
-        final imageHeight = fullHeight * 0.75;
-        final textHeight = fullHeight * 0.25;
+        final imageHeight = fullHeight * 0.35;
+        final textHeight = fullHeight * 0.65;
 
         return Column(
           children: [
