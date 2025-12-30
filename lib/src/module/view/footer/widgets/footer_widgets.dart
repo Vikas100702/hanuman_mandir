@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hanuman_mandir/src/core/const/endpoints/endpoints.dart';
 import 'package:hanuman_mandir/src/core/utils/style_extension.dart';
+import 'package:hanuman_mandir/src/core/widgets/app_image.dart';
 import 'package:hanuman_mandir/src/module/model/footer/footer_model.dart';
 import 'package:hanuman_mandir/src/module/view/footer/widgets/footer_audio_player.dart';
 import 'package:hanuman_mandir/src/module/view/global_widgets/global_widgets.dart';
@@ -42,7 +43,15 @@ class FooterWidgets {
             width: isDesktop ? 120 : context.responsiveWidth(100, 120),
             margin: EdgeInsets.only(bottom: context.responsiveHeight(15, 20)),
             child: (logoUrl != null && logoUrl.isNotEmpty)
-                ? ImageNetwork(
+                ? AppImage(
+                    imageUrl: "${Endpoints.globalUrl}$logoUrl",
+                    width: isDesktop ? 120 : context.responsiveWidth(100, 120),
+                    height: isDesktop
+                        ? 120
+                        : context.responsiveHeight(100, 120),
+                    fit: .contain,
+                  )
+                /*ImageNetwork(
                     image: "${Endpoints.globalUrl}$logoUrl",
                     height: isDesktop
                         ? 120
@@ -51,7 +60,7 @@ class FooterWidgets {
                     fitAndroidIos: BoxFit.contain,
                     fitWeb: BoxFitWeb.contain,
                     onError: Icon(Icons.error, color: Colors.white),
-                  )
+                  )*/
                 : Image.asset(
                     "assets/images/left_header_logo.png",
                     fit: BoxFit.contain,
