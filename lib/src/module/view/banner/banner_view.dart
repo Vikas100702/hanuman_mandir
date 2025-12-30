@@ -35,13 +35,18 @@ class BannerView extends StatelessWidget {
       final screenWidth = MediaQuery.of(context).size.width;
       final isMobile = context.isMobile;
 
-      // Calculate carousel height (same as in banner_widgets.dart)
-      final carouselHeight = isMobile
-          ? screenHeight *
-                0.75 // 75% for mobile
-          : screenHeight * 0.6; // 60% for desktop
+      final bool isOnlyImage =
+          bannerController.bannerDataList.first.bannerType == "ONLY IMAGE";
 
+      // Calculate carousel height
+      double carouselHeight =
+      isMobile ? screenHeight * 0.75 : screenHeight * 0.6;
+
+      if (isOnlyImage) {
+        carouselHeight = carouselHeight / 2;
+      }
       return CarouselSlider(
+
         options: CarouselOptions(
           height: carouselHeight,
           viewportFraction: 1.0,
