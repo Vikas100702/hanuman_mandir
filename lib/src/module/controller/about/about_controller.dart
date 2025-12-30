@@ -13,7 +13,7 @@ class AboutController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchAboutData();
+    // fetchAboutData();
   }
 
   Future<void> fetchAboutData() async {
