@@ -15,9 +15,7 @@ class FooterAudioPlayer extends StatefulWidget {
 }
 
 class _FooterAudioPlayerState extends State<FooterAudioPlayer> {
-  final BackgroundMusicController _backgroundMusicController = Get.put(
-    BackgroundMusicController(backgroundMusicService: BackgroundMusicService()),
-  );
+  final BackgroundMusicController _backgroundMusicController = Get.find<BackgroundMusicController>();
 
   final AudioPlayer _audioPlayer = AudioPlayer();
 
