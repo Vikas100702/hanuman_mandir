@@ -13,7 +13,7 @@ class HeaderController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchHeaderData();
+    // fetchHeaderData();
   }
 
   Future<void> fetchHeaderData() async {
