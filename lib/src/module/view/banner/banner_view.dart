@@ -15,9 +15,7 @@ class BannerView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final BannerController bannerController = Get.put(
-      BannerController(bannerService: BannerService()),
-    );
+    final BannerController bannerController = Get.find<BannerController>();
 
     return Obx(() {
       if (bannerController.isLoading.value) {
