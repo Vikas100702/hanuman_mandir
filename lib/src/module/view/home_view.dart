@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hanuman_mandir/src/module/controller/home_controller.dart';
 import 'package:hanuman_mandir/src/module/view/about/about_view.dart';
 import 'package:hanuman_mandir/src/module/view/banner/banner_view.dart';
 import 'package:hanuman_mandir/src/module/view/footer/footer_view.dart';
@@ -9,28 +11,33 @@ import 'package:hanuman_mandir/src/module/view/todays_panchangam/upcoming_events
 
 import 'header/header_view.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
+    return Scaffold(body: Obx(() {
+      // GLOBAL LOADER: Shows until ALL APIs are finished
+      if (controller.isLoading.value) {
+        return const Center(
+          child: CircularProgressIndicator(
+            color: Colors.deepPurple,
+          ),
+        );
+      }
+
+      return SingleChildScrollView(
         child: Column(
-          children: [
-            // Just call the Header Module here
+          children: const [
             HeaderView(),
             BannerView(),
             TodaysPanchangamView(),
             AboutView(),
             FooterView(),
-
-            // You can add other modules here in the future
-            // Example: SliderView(),
-            // Example: EventsView(),
           ],
         ),
-      ),
+      );
+    }),
     );
   }
 }
