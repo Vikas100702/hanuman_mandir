@@ -14,9 +14,7 @@ class SpecialEventsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final SpecialEventsController specialEventsController = Get.put(
-      SpecialEventsController(specialEventsService: SpecialEventsService()),
-    );
+    final SpecialEventsController specialEventsController = Get.find<SpecialEventsController>();
     return Obx(() {
       if (specialEventsController.isLoading.value) {
         return SizedBox(
