@@ -29,9 +29,7 @@ class UpcomingEventsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final UpcomingEventsController upcomingEventsController = Get.put(
-      UpcomingEventsController(upcomingEventsService: UpcomingEventsService()),
-    );
+    final UpcomingEventsController upcomingEventsController = Get.find<UpcomingEventsController>();
 
     return Obx(() {
       if (upcomingEventsController.isLoading.value) {
