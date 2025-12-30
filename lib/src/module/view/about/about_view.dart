@@ -14,9 +14,7 @@ class AboutView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AboutController aboutController = Get.put(
-      AboutController(aboutService: AboutService()),
-    );
+    final AboutController aboutController = Get.find<AboutController>();
     return Obx(() {
       if (aboutController.isLoading.value) {
         return SizedBox(
