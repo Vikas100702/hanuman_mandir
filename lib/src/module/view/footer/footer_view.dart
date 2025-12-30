@@ -15,9 +15,7 @@ class FooterView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final FooterController footerController = Get.put(
-      FooterController(footerService: FooterService()),
-    );
+    final FooterController footerController = Get.find<FooterController>();
 
     // Retrieve the existing HeaderController to access the logo
     final HeaderController headerController =
