@@ -14,7 +14,7 @@ class TempleScheduleController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchTempleScheduleData();
+    // fetchTempleScheduleData();
   }
 
   Future<void> fetchTempleScheduleData() async {
