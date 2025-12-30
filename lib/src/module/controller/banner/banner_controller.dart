@@ -13,7 +13,7 @@ class BannerController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchBannerData();
+    // fetchBannerData();
   }
 
   Future<void> fetchBannerData() async {
