@@ -32,6 +32,7 @@ class BannerView extends StatelessWidget {
 
       // Get screen dimensions
       final screenHeight = MediaQuery.of(context).size.height;
+      final screenWidth = MediaQuery.of(context).size.width;
       final isMobile = context.isMobile;
 
       // Calculate carousel height (same as in banner_widgets.dart)
@@ -51,7 +52,12 @@ class BannerView extends StatelessWidget {
           autoPlayCurve: Curves.fastOutSlowIn,
         ),
         items: bannerController.bannerDataList.map((Datum data) {
-          return BannerWidgets.buildBannerItem(context, data);
+          return BannerWidgets.buildBannerItem(
+            context,
+            data,
+            width: screenWidth,
+            height: carouselHeight,
+          );
         }).toList(),
       );
     });

@@ -10,12 +10,17 @@ import 'package:image_network/image_network.dart';
 
 class BannerWidgets {
   /// Main builder for a single Banner Item
-  static Widget buildBannerItem(BuildContext context, Datum data) {
+  static Widget buildBannerItem(
+    BuildContext context,
+    Datum data, {
+    required double width,
+    required double height,
+  }) {
     final String imageUrl = "${Endpoints.globalUrl}${data.refDataName}";
 
     // 1. Check for "ONLY IMAGE" type
     if (data.bannerType == "ONLY IMAGE") {
-      return _buildFullImage(context, imageUrl);
+      return _buildFullImage(context, imageUrl, width, height);
     }
 
     // 2. Render Responsive Layout for Text+Image Banners
@@ -28,42 +33,29 @@ class BannerWidgets {
   // --- LAYOUTS ---
 
   /// Full image banner (no text)
-  static Widget _buildFullImage(BuildContext context, String imageUrl) {
+  static Widget _buildFullImage(
+    BuildContext context,
+    String imageUrl,
+    double width,
+    double height,
+  ) {
     return SizedBox(
       width: .infinity,
       height: .infinity,
-      child: AppImage(imageUrl: imageUrl, fit: .cover),
+      child: AppImage(
+        imageUrl: imageUrl,
+        fit: .fill,
+        width: width,
+        height: height,
+      ),
     );
-    /*return LayoutBuilder(
-      builder: (context, constraints) {
-        // Use constraints from parent (carousel)
-        return SizedBox(
-          width: constraints.maxWidth,
-          height: constraints.maxHeight,
-          child: ImageNetwork(
-            image: imageUrl,
-            width: constraints.maxWidth,
-            height: constraints.maxHeight,
-            fitAndroidIos: BoxFit.cover,
-            fitWeb: BoxFitWeb.fill,
-            onLoading: const Center(
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-              ),
-            ),
-            onError: Icon(
-              Icons.image_not_supported,
-              color: AppColors.errorColor,
-              size: 50,
-            ),
-          ),
-        );
-      },
-    );*/
   }
 
-  static Widget _buildDesktopLayout(BuildContext context, Datum data, String imageUrl) {
+  static Widget _buildDesktopLayout(
+    BuildContext context,
+    Datum data,
+    String imageUrl,
+  ) {
     return LayoutBuilder(
       builder: (context, constraints) {
         // Use half of available width for each side
@@ -76,25 +68,12 @@ class BannerWidgets {
             SizedBox(
               width: halfWidth,
               height: fullHeight,
-              child: AppImage(imageUrl: imageUrl, fit: BoxFit.cover),
-              /*child: ImageNetwork(
-                image: imageUrl,
+              child: AppImage(
+                imageUrl: imageUrl,
+                fit: BoxFit.fill,
                 width: halfWidth,
                 height: fullHeight,
-                fitAndroidIos: BoxFit.cover,
-                fitWeb: BoxFitWeb.fill,
-                onLoading: const Center(
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                  ),
-                ),
-                onError: Icon(
-                  Icons.image_not_supported,
-                  color: AppColors.errorColor,
-                  size: 50,
-                ),
-              ),*/
+              ),
             ),
             // Text Side
             SizedBox(
@@ -108,7 +87,11 @@ class BannerWidgets {
     );
   }
 
-  static Widget _buildMobileLayout(BuildContext context, Datum data, String imageUrl) {
+  static Widget _buildMobileLayout(
+    BuildContext context,
+    Datum data,
+    String imageUrl,
+  ) {
     return LayoutBuilder(
       builder: (context, constraints) {
         final fullWidth = constraints.maxWidth;
@@ -124,25 +107,12 @@ class BannerWidgets {
             SizedBox(
               width: fullWidth,
               height: imageHeight,
-              child: AppImage(imageUrl: imageUrl, fit: BoxFit.cover),
-              /*child: ImageNetwork(
-                image: imageUrl,
+              child: AppImage(
+                imageUrl: imageUrl,
+                fit: BoxFit.fill,
                 width: fullWidth,
                 height: imageHeight,
-                fitAndroidIos: BoxFit.cover,
-                fitWeb: BoxFitWeb.cover,
-                onLoading: const Center(
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                  ),
-                ),
-                onError: Icon(
-                  Icons.image_not_supported,
-                  color: AppColors.errorColor,
-                  size: 50,
-                ),
-              ),*/
+              ),
             ),
             // Text Section
             SizedBox(
@@ -158,7 +128,11 @@ class BannerWidgets {
 
   // --- HELPER WIDGETS ---
 
-  static Widget _buildTextContainer(BuildContext context, Datum data, {required bool isMobile}) {
+  static Widget _buildTextContainer(
+    BuildContext context,
+    Datum data, {
+    required bool isMobile,
+  }) {
     String cleanDescription = (data.bannerDesc ?? "").removeHtmlTags();
     String cleanHeading = (data.bannerHeading ?? "").replaceBackslash();
 
@@ -195,11 +169,12 @@ class BannerWidgets {
   }
 
   static List<Widget> _buildTextChildren(
-      BuildContext context,
-      Datum data,
-      String heading,
-      String description,
-      bool isMobile) {
+    BuildContext context,
+    Datum data,
+    String heading,
+    String description,
+    bool isMobile,
+  ) {
     return [
       // Heading
       Text(
