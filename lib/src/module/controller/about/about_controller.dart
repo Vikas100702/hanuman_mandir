@@ -29,8 +29,6 @@ class AboutController extends GetxController {
     }
   }
 
-  // Helper to get the first item safely
-  AboutDatum? get aboutData => (aboutDataModel.value?.data.isNotEmpty ?? false)
-      ? aboutDataModel.value!.data.first
-      : null;
+  // Getter to access the full list of data
+  List<AboutDatum> get aboutDataList => aboutDataModel.value?.data ?? [];
 }
