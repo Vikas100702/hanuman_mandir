@@ -37,10 +37,10 @@ class AppImage extends StatelessWidget {
         fitAndroidIos: fit,
         fitWeb: _mapBoxFitToWeb(fit),
         onLoading: const Center(
-          child: CircularProgressIndicator(
-            strokeWidth: 2,
-            color: Colors.deepPurple,
-          ),
+          // child: CircularProgressIndicator(
+          //   strokeWidth: 2,
+          //   color: Colors.yellow,
+          // ),
         ),
         onError: const Icon(Icons.image_not_supported, color: Colors.red),
       );

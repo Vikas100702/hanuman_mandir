@@ -7,7 +7,7 @@ import 'package:hanuman_mandir/src/core/widgets/responsive_view.dart';
 import 'package:hanuman_mandir/src/data/services/about/about_service.dart';
 import 'package:hanuman_mandir/src/module/controller/about/about_controller.dart';
 import 'package:hanuman_mandir/src/module/model/about/about_model.dart';
-import 'package:hanuman_mandir/src/module/view/about/widgets/about_widget.dart';
+import 'package:hanuman_mandir/src/module/view/home/about/widgets/about_widget.dart';
 import 'package:image_network/image_network.dart';
 
 class AboutView extends StatelessWidget {

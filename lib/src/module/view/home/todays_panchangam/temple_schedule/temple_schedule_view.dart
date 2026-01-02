@@ -8,7 +8,7 @@ import 'package:hanuman_mandir/src/core/widgets/responsive_view.dart';
 import 'package:hanuman_mandir/src/module/model/todays_panchangam/temple_schedule/temple_schedule_model.dart';
 import 'package:hanuman_mandir/src/data/services/todays_panchangam/temple_schedule/temple_schedule_service.dart';
 import 'package:hanuman_mandir/src/module/controller/todays_panchangam/temple_schedule/temple_schedule_controller.dart';
-import 'package:hanuman_mandir/src/module/view/todays_panchangam/widgets/todays_panchangam_widgets.dart';
+import 'package:hanuman_mandir/src/module/view/home/todays_panchangam/widgets/todays_panchangam_widgets.dart';
 
 class TempleScheduleView extends StatelessWidget {
   const TempleScheduleView({super.key});

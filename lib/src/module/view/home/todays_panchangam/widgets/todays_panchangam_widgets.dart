@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hanuman_mandir/src/core/const/app_colors.dart';
 import 'package:hanuman_mandir/src/core/utils/style_extension.dart';
-import 'package:hanuman_mandir/src/module/view/global_widgets/global_widgets.dart';
+import 'package:hanuman_mandir/src/module/view/home/global_widgets/global_widgets.dart';
 
 class TodaysPanchangamWidgets {
   static Widget panchangamCards({

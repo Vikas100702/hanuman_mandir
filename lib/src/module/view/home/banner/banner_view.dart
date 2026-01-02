@@ -7,7 +7,7 @@ import 'package:hanuman_mandir/src/core/widgets/responsive_view.dart';
 import 'package:hanuman_mandir/src/data/services/banner/banner_service.dart';
 import 'package:hanuman_mandir/src/module/controller/banner/banner_controller.dart';
 import 'package:hanuman_mandir/src/module/model/banner/banner_model.dart';
-import 'package:hanuman_mandir/src/module/view/banner/widgets/banner_widgets.dart';
+import 'package:hanuman_mandir/src/module/view/home/banner/widgets/banner_widgets.dart';
 import 'package:image_network/image_network.dart';
 
 class BannerView extends StatelessWidget {

@@ -6,7 +6,7 @@ import 'package:hanuman_mandir/src/core/const/endpoints/endpoints.dart';
 import 'package:hanuman_mandir/src/core/utils/style_extension.dart';
 import 'package:hanuman_mandir/src/data/services/todays_panchangam/upcoming_events/upcoming_events_service.dart';
 import 'package:hanuman_mandir/src/module/controller/todays_panchangam/upcoming_events/upcoming_events_controller.dart';
-import 'package:hanuman_mandir/src/module/view/todays_panchangam/widgets/todays_panchangam_widgets.dart';
+import 'package:hanuman_mandir/src/module/view/home/todays_panchangam/widgets/todays_panchangam_widgets.dart';
 import 'package:image_network/image_network.dart';
 import 'package:intl/intl.dart';
 

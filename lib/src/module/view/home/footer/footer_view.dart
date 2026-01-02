@@ -8,7 +8,7 @@ import 'package:hanuman_mandir/src/data/services/header/header_service.dart';
 import 'package:hanuman_mandir/src/module/controller/footer/footer_controller.dart';
 import 'package:hanuman_mandir/src/module/controller/header/header_controller.dart';
 import 'package:hanuman_mandir/src/module/model/footer/footer_model.dart';
-import 'package:hanuman_mandir/src/module/view/footer/widgets/footer_widgets.dart';
+import 'package:hanuman_mandir/src/module/view/home/footer/widgets/footer_widgets.dart';
 
 class FooterView extends StatelessWidget {
   const FooterView({super.key});

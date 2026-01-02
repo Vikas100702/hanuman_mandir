@@ -4,9 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hanuman_mandir/src/core/const/app_colors.dart';
 import 'package:hanuman_mandir/src/core/utils/style_extension.dart';
 import 'package:hanuman_mandir/src/core/widgets/responsive_view.dart';
-import 'package:hanuman_mandir/src/module/view/todays_panchangam/special_events/special_events_view.dart';
-import 'package:hanuman_mandir/src/module/view/todays_panchangam/temple_schedule/temple_schedule_view.dart';
-import 'package:hanuman_mandir/src/module/view/todays_panchangam/upcoming_events/upcoming_events_view.dart';
+import 'package:hanuman_mandir/src/module/view/home/todays_panchangam/special_events/special_events_view.dart';
+import 'package:hanuman_mandir/src/module/view/home/todays_panchangam/temple_schedule/temple_schedule_view.dart';
+import 'package:hanuman_mandir/src/module/view/home/todays_panchangam/upcoming_events/upcoming_events_view.dart';
 
 class TodaysPanchangamView extends StatelessWidget {
   const TodaysPanchangamView({super.key});
@@ -18,7 +18,7 @@ class TodaysPanchangamView extends StatelessWidget {
         vertical: context.responsiveHeight(20, 40),
         horizontal: context.responsiveWidth(16, 40),
       ),
-      decoration: const BoxDecoration(color: Color(0xFFF5F5DC)),
+      decoration: BoxDecoration(color: AppColors.appBackground),
       child: Column(
         crossAxisAlignment: .center,
         children: [

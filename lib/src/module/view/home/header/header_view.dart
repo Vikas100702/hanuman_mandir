@@ -24,7 +24,7 @@ class HeaderView extends StatelessWidget {
       if (headerController.isLoading.value) {
         return SizedBox(
           height: context.responsiveHeight(200, 250),
-          child: Center(child: CircularProgressIndicator()),
+          // child: Center(child: CircularProgressIndicator()),
         );
       }
 

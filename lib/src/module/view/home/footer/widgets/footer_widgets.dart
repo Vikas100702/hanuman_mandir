@@ -4,8 +4,8 @@ import 'package:hanuman_mandir/src/core/const/endpoints/endpoints.dart';
 import 'package:hanuman_mandir/src/core/utils/style_extension.dart';
 import 'package:hanuman_mandir/src/core/widgets/app_image.dart';
 import 'package:hanuman_mandir/src/module/model/footer/footer_model.dart';
-import 'package:hanuman_mandir/src/module/view/footer/widgets/footer_audio_player.dart';
-import 'package:hanuman_mandir/src/module/view/global_widgets/global_widgets.dart';
+import 'package:hanuman_mandir/src/module/view/home/footer/widgets/footer_audio_player.dart';
+import 'package:hanuman_mandir/src/module/view/home/global_widgets/global_widgets.dart';
 import 'package:image_network/image_network.dart';
 import 'package:url_launcher/url_launcher.dart';
 

@@ -10,6 +10,7 @@ class AppColors {
   static const Color gold = Color(0xFFD5B906);
   static const Color white = Color(0xFFFFFFFF);
   static const Color black = Color(0xFF000000);
+  static const Color appBackground = Color(0xFFFFF8E1);
 
   // Text Colors
   static const Color textWhite = Color(0xFFFFFFFF);

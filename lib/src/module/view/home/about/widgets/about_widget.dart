@@ -109,6 +109,8 @@ class AboutWidget extends StatelessWidget {
         data.imageUrl != null && data.imageUrl!.startsWith("http");
 
     return Column(
+      crossAxisAlignment: .center,
+      mainAxisAlignment: .center,
       children: [
         Container(
           decoration: BoxDecoration(
