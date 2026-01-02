@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hanuman_mandir/src/core/const/app_colors.dart';
 import 'package:hanuman_mandir/src/core/utils/style_extension.dart';
+import 'package:hanuman_mandir/src/module/view/home/sri_hanuman_mandir_services/widgets/sri_hanuman_mandir_services_widgets.dart';
 
 class SriHanumanMandirServicesView extends StatelessWidget {
   const SriHanumanMandirServicesView({super.key});
@@ -36,6 +37,34 @@ class SriHanumanMandirServicesView extends StatelessWidget {
             ),
           ),
           SizedBox(height: context.responsiveHeight(20, 30)),
+          // Inside your build method or GridView
+          Row(
+            mainAxisAlignment:.spaceEvenly,
+            children: [
+              SriHanumanMandirServicesWidgets.serviceCard(
+                context,
+                title: "Pooja\nBooking",
+                imageUrl: "assets/images/img.png",
+                onTap: () {
+                  // Handle tap
+                },
+              ),SriHanumanMandirServicesWidgets.serviceCard(
+                context,
+                title: "Pooja\nBooking",
+                imageUrl: "assets/images/img_1.png",
+                onTap: () {
+                  // Handle tap
+                },
+              ),SriHanumanMandirServicesWidgets.serviceCard(
+                context,
+                title: "Pooja\nBooking",
+                imageUrl: "assets/images/img_2.png",
+                onTap: () {
+                  // Handle tap
+                },
+              ),
+            ],
+          ),
         ],
       ),
     );
