@@ -10,12 +10,38 @@ class SriHanumanMandirServicesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double cardWidth = context.isMobile
-        ? (context.screenWidth -30) /
-              3 // Mobile: tight fit
-        : 220; // Web/Tablet: fixed larger size
+    double cardWidth = context.isMobile ? context.screenWidth * 0.6 : 220;
+    double cardHeight = cardWidth * 1.1;
 
-    double cardHeight = cardWidth ;
+    List<Widget> serviceCards = [
+      SriHanumanMandirServicesWidgets.serviceCard(
+        context,
+        title: "Temple\nServices",
+        imageUrl: "assets/images/img.png",
+        width: cardWidth,
+        height: cardHeight,
+        fontSize: context.isMobile ? 14 : 16,
+        onTap: () {},
+      ),
+      SriHanumanMandirServicesWidgets.serviceCard(
+        context,
+        title: "Donations",
+        imageUrl: "assets/images/img_1.png",
+        width: cardWidth,
+        height: cardHeight,
+        fontSize: context.isMobile ? 14 : 16,
+        onTap: () {},
+      ),
+      SriHanumanMandirServicesWidgets.serviceCard(
+        context,
+        title: "Upcoming\nEvents",
+        imageUrl: "assets/images/img_2.png",
+        width: cardWidth,
+        height: cardHeight,
+        fontSize: context.isMobile ? 14 : 16,
+        onTap: () {},
+      ),
+    ];
 
     return Container(
       padding: EdgeInsets.symmetric(
@@ -23,6 +49,7 @@ class SriHanumanMandirServicesView extends StatelessWidget {
         horizontal: context.responsiveWidth(16, 40),
       ),
       decoration: BoxDecoration(color: AppColors.appBackground),
+      width: .infinity,
       child: Column(
         crossAxisAlignment: .center,
         children: [
@@ -40,55 +67,37 @@ class SriHanumanMandirServicesView extends StatelessWidget {
           Center(
             child: Image.asset(
               "assets/images/border.png",
-              width: context.isMobile ? context.screenWidth * 0.6 : 300,
-              height: 10,
+              width: context.isMobile ? context.screenWidth * 0.6 : 600,
+              height: 50,
               fit: .contain,
             ),
           ),
           SizedBox(height: context.responsiveHeight(20, 30)),
 
-          // Service Cards Row
-          Row(
-            mainAxisAlignment: .center,
-            crossAxisAlignment: .start,
-            children: [
-              SriHanumanMandirServicesWidgets.serviceCard(
-                context,
-                title: "Temple Services",
-                imageUrl: "assets/images/img.png",
-                width: cardWidth,
-                height: cardHeight,
-                fontSize: context.isMobile ? 11 : 16,
-                onTap: () {
-                  // Handle tap
-                },
-              ),
-              SizedBox(width: context.responsiveWidth(10, 20)),
-              SriHanumanMandirServicesWidgets.serviceCard(
-                context,
-                title: "Donations",
-                imageUrl: "assets/images/img_1.png",
-                width: cardWidth,
-                height: cardHeight,
-                fontSize: context.isMobile ? 11 : 16,
-                onTap: () {
-                  // Handle tap
-                },
-              ),
-              SizedBox(width: context.responsiveWidth(10, 20)),
-              SriHanumanMandirServicesWidgets.serviceCard(
-                context,
-                title: "Upcoming Events",
-                imageUrl: "assets/images/img_2.png",
-                width: cardWidth,
-                height: cardHeight,
-                fontSize: context.isMobile ? 11 : 16,
-                onTap: () {
-                  // Handle tap
-                },
-              ),
-            ],
-          ),
+          if(context.isMobile)
+            Column(
+              children: [
+                for(int i = 0; i < serviceCards.length; i++) ...[
+                  serviceCards[i],
+
+                  if(i != serviceCards.length - 1)
+                    SizedBox(height: context.responsiveHeight(20, 0)),
+                ]
+              ],
+            )
+          else
+            Row(
+              mainAxisAlignment: .center,
+              crossAxisAlignment: .start,
+              children: [
+                for(int i = 0; i < serviceCards.length; i++) ...[
+                  serviceCards[i],
+
+                  if (i != serviceCards.length - 1)
+                    SizedBox(width: context.responsiveWidth(0, 30)),
+                ]
+              ],
+            )
         ],
       ),
     );
