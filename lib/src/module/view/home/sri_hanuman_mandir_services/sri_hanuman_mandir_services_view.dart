@@ -10,6 +10,13 @@ class SriHanumanMandirServicesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double cardWidth = context.isMobile
+        ? (context.screenWidth -30) /
+              3 // Mobile: tight fit
+        : 220; // Web/Tablet: fixed larger size
+
+    double cardHeight = cardWidth ;
+
     return Container(
       padding: EdgeInsets.symmetric(
         vertical: context.responsiveHeight(20, 40),
@@ -26,39 +33,56 @@ class SriHanumanMandirServicesView extends StatelessWidget {
             style: GoogleFonts.openSans(
               color: AppColors.primaryRed,
               fontWeight: .bold,
-              fontSize: context.responsiveSize(28, 36),
+              fontSize: context.responsiveSize(22, 32),
             ),
           ),
-          SizedBox(height: context.responsiveHeight(10, 15)),
+          SizedBox(height: context.responsiveHeight(5, 10)),
           Center(
             child: Image.asset(
               "assets/images/border.png",
-              width: context.isMobile ? context.screenWidth * 0.8 : 400,
+              width: context.isMobile ? context.screenWidth * 0.6 : 300,
+              height: 10,
+              fit: .contain,
             ),
           ),
           SizedBox(height: context.responsiveHeight(20, 30)),
-          // Inside your build method or GridView
+
+          // Service Cards Row
           Row(
-            mainAxisAlignment:.spaceEvenly,
+            mainAxisAlignment: .center,
+            crossAxisAlignment: .start,
             children: [
               SriHanumanMandirServicesWidgets.serviceCard(
                 context,
-                title: "Pooja\nBooking",
+                title: "Temple Services",
                 imageUrl: "assets/images/img.png",
+                width: cardWidth,
+                height: cardHeight,
+                fontSize: context.isMobile ? 11 : 16,
                 onTap: () {
                   // Handle tap
                 },
-              ),SriHanumanMandirServicesWidgets.serviceCard(
+              ),
+              SizedBox(width: context.responsiveWidth(10, 20)),
+              SriHanumanMandirServicesWidgets.serviceCard(
                 context,
-                title: "Pooja\nBooking",
+                title: "Donations",
                 imageUrl: "assets/images/img_1.png",
+                width: cardWidth,
+                height: cardHeight,
+                fontSize: context.isMobile ? 11 : 16,
                 onTap: () {
                   // Handle tap
                 },
-              ),SriHanumanMandirServicesWidgets.serviceCard(
+              ),
+              SizedBox(width: context.responsiveWidth(10, 20)),
+              SriHanumanMandirServicesWidgets.serviceCard(
                 context,
-                title: "Pooja\nBooking",
+                title: "Upcoming Events",
                 imageUrl: "assets/images/img_2.png",
+                width: cardWidth,
+                height: cardHeight,
+                fontSize: context.isMobile ? 11 : 16,
                 onTap: () {
                   // Handle tap
                 },
