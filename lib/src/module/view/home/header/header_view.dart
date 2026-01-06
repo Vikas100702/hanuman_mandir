@@ -8,23 +8,70 @@ import 'package:hanuman_mandir/src/core/const/endpoints/endpoints.dart';
 import 'package:hanuman_mandir/src/core/utils/style_extension.dart';
 import 'package:hanuman_mandir/src/core/widgets/app_image.dart';
 import 'package:hanuman_mandir/src/core/widgets/responsive_view.dart';
-import 'package:hanuman_mandir/src/data/services/header/header_service.dart';
 import 'package:hanuman_mandir/src/module/controller/header/header_controller.dart';
 import 'package:hanuman_mandir/src/module/model/header/header_model.dart';
-import 'package:image_network/image_network.dart';
 
 class HeaderView extends StatelessWidget {
   const HeaderView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // We do NOT wrap the entire build in Obx.
+    // We only wrap the dynamic parts to save resources.
+
+    return Container(
+      color: AppColors.primaryRed,
+      child: Column(
+        children: [
+          // PART 1: MAIN HEADER (Logos + Text) - DYNAMIC
+          Container(
+            height: context.responsiveHeight(20, 35),
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: AppColors.borderColor,
+              border: Border(
+                bottom: BorderSide(
+                  color: AppColors.gold, // Gold line
+                  width: 1.5,
+                ),
+              ),
+            ),
+          ),
+
+          // --- Main Content Area (Dynamic) ---
+          Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: context.responsiveHeight(15, 25),
+              horizontal: context.responsiveWidth(16, 40),
+            ),
+            child: Center(
+              child: _buildDynamicHeaderContent(context),
+            ),
+          ),
+
+          // PART 2: MENU BAR - STATIC (Optimized: No Obx here)
+          Container(
+            color: AppColors.deepPurple,
+            width: double.infinity,
+            child: ResponsiveView(
+              mobile: _buildMobileMenuBar(context),
+              desktop: _buildDesktopMenuBar(context),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Wraps only the data-dependent part in Obx
+  Widget _buildDynamicHeaderContent(BuildContext context) {
     final HeaderController headerController = Get.find<HeaderController>();
 
     return Obx(() {
       if (headerController.isLoading.value) {
         return SizedBox(
           height: context.responsiveHeight(200, 250),
-          // child: Center(child: CircularProgressIndicator()),
+          // Optional: Add a shimmer effect here for better UX
         );
       }
 
@@ -35,51 +82,9 @@ class HeaderView extends StatelessWidget {
 
       final Datum data = headerController.headerDataList.first;
 
-      return Container(
-        color: AppColors.primaryRed,
-        child: Column(
-          children: [
-            // PART 1: MAIN HEADER (Logos + Text)
-            Container(
-              height: context.responsiveHeight(20, 35),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: AppColors.borderColor,
-                border: Border(
-                  bottom: BorderSide(
-                    color: AppColors.gold, // Gold line
-                    width: 1.5,
-                  ),
-                ),
-              ),
-            ),
-
-            // --- Main Content Area ---
-            Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: context.responsiveHeight(15, 25),
-                horizontal: context.responsiveWidth(16, 40),
-              ),
-              child: Center(
-                child: ResponsiveView(
-                  mobile: _buildMobileHeaderLayout(context, data),
-                  desktop: _buildDesktopHeaderLayout(context, data),
-                ),
-              ),
-            ),
-
-            // PART 2: MENU BAR
-            Container(
-              color: AppColors.deepPurple,
-              width: double.infinity,
-              // Switch between Mobile (Hamburger) and Desktop (Row)
-              child: ResponsiveView(
-                mobile: _buildMobileMenuBar(context),
-                desktop: _buildDesktopMenuBar(context),
-              ),
-            ),
-          ],
-        ),
+      return ResponsiveView(
+        mobile: _buildMobileHeaderLayout(context, data),
+        desktop: _buildDesktopHeaderLayout(context, data),
       );
     });
   }
@@ -87,8 +92,8 @@ class HeaderView extends StatelessWidget {
   // DESKTOP HEADER LAYOUT
   Widget _buildDesktopHeaderLayout(BuildContext context, Datum data) {
     return Row(
-      crossAxisAlignment: .center,
-      mainAxisAlignment: .center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _buildLogo(
           context,
@@ -135,12 +140,12 @@ class HeaderView extends StatelessWidget {
 
   // HEADER TEXT CONTENT WIDGET
   Widget _buildTextContent(
-    BuildContext context,
-    Datum data, {
-    required bool isMobile,
-  }) {
+      BuildContext context,
+      Datum data, {
+        required bool isMobile,
+      }) {
     return Column(
-      mainAxisSize: .min,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Text(
           data.refDataName ?? "The Hanuman Mandir",
@@ -192,16 +197,15 @@ class HeaderView extends StatelessWidget {
   }
 
   // MENU BAR IMPLEMENTATIONS
-  /// 1. Desktop Menu Bar (Horizontal Row)
   Widget _buildDesktopMenuBar(BuildContext context) {
     return Center(
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-          mainAxisSize: .min,
+          mainAxisSize: MainAxisSize.min,
           children: [
             ...AppMenuConfig.mainMenuItems.map(
-              (item) => _buildDesktopMenuItem(context, item),
+                  (item) => _buildDesktopMenuItem(context, item),
             ),
             _buildCartIcon(context, isMobile: false),
           ],
@@ -210,7 +214,6 @@ class HeaderView extends StatelessWidget {
     );
   }
 
-  /// 2. Mobile Menu Bar (Hamburger Icon)
   Widget _buildMobileMenuBar(BuildContext context) {
     return Container(
       height: context.responsiveHeight(50, 60),
@@ -238,19 +241,16 @@ class HeaderView extends StatelessWidget {
               fontSize: context.responsiveSize(16, 18),
             ),
           ),
-
-          // Cart Icon
           _buildCartIcon(context, isMobile: true),
         ],
       ),
     );
   }
 
-  /// Opens the Mobile Menu BottomSheet
   void _openMobileMenu(BuildContext context) {
     Get.bottomSheet(
       Container(
-        color: AppColors.deepPurple, // Match Menu Color
+        color: AppColors.deepPurple,
         width: double.infinity,
         padding: EdgeInsets.symmetric(
           vertical: context.responsiveHeight(20, 30),
@@ -261,7 +261,7 @@ class HeaderView extends StatelessWidget {
             return ListTile(
               title: Text(
                 item.title,
-                textAlign: .center,
+                textAlign: TextAlign.center,
                 style: GoogleFonts.openSans(
                   color: AppColors.white,
                   fontSize: context.responsiveSize(18, 20),
@@ -272,7 +272,7 @@ class HeaderView extends StatelessWidget {
           }).toList(),
         ),
       ),
-      isScrollControlled: true, // Allows sheet to go taller if needed
+      isScrollControlled: true,
       elevation: 10,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
@@ -282,11 +282,10 @@ class HeaderView extends StatelessWidget {
     );
   }
 
-  // --- Desktop Menu Item ---
   Widget _buildDesktopMenuItem(BuildContext context, MenuItemModel item) {
     return Container(
       color: item.isActive ? AppColors.white : Colors.transparent,
-      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -299,7 +298,7 @@ class HeaderView extends StatelessWidget {
             ),
           ),
           if (item.hasDropdown) ...[
-            SizedBox(width: 4),
+            const SizedBox(width: 4),
             Icon(
               Icons.arrow_drop_down,
               color: item.isActive ? const Color(0xFFC00000) : AppColors.white,
@@ -311,68 +310,9 @@ class HeaderView extends StatelessWidget {
     );
   }
 
-  // ---Mobile List Tile ---
-  Widget _buildMobileListTile(String title, {bool isActive = false}) {
-    return ListTile(
-      title: Text(
-        title,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          color: isActive ? Colors.yellow : Colors.white,
-          fontWeight: FontWeight.bold,
-          fontSize: 18,
-        ),
-      ),
-      onTap: () {
-        Get.back(); // Close bottom sheet
-      },
-    );
-  }
-
-  // --- Mobile Expansion Tile ---
-  Widget _buildMobileExpansionTile(String title) {
-    return Theme(
-      data: ThemeData(dividerColor: Colors.transparent),
-      // Hide internal borders
-      child: ExpansionTile(
-        title: Text(
-          title,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-          ),
-        ),
-        iconColor: Colors.white,
-        collapsedIconColor: Colors.white,
-        children: [
-          // Placeholder sub-items
-          ListTile(
-            title: const Text(
-              "Option 1",
-              style: TextStyle(color: Colors.white70),
-            ),
-            onTap: () => Get.back(),
-            contentPadding: const EdgeInsets.only(left: 40),
-          ),
-          ListTile(
-            title: const Text(
-              "Option 2",
-              style: TextStyle(color: Colors.white70),
-            ),
-            onTap: () => Get.back(),
-            contentPadding: const EdgeInsets.only(left: 40),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // --- Helper: Cart Icon ---
   Widget _buildCartIcon(BuildContext context, {required bool isMobile}) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Icon(
         Icons.shopping_cart,
         color: AppColors.white,
@@ -381,14 +321,12 @@ class HeaderView extends StatelessWidget {
     );
   }
 
-  // --- Logo Builder ---
   Widget _buildLogo(
-    BuildContext context,
-    String? url, {
-    String? fallback,
-    required double size,
-  }) {
-    // Logic to show ImageNetwork if url is valid, or Asset if not
+      BuildContext context,
+      String? url, {
+        String? fallback,
+        required double size,
+      }) {
     if (url == null || url.isEmpty || !url.startsWith('http')) {
       return SizedBox(width: size, height: size);
     }
@@ -405,21 +343,12 @@ class HeaderView extends StatelessWidget {
           imageUrl: url,
           width: size,
           height: size,
-          fit: .contain,
+          fit: BoxFit.contain,
         ),
-        /*child: ImageNetwork(
-          image: url,
-          height: size,
-          width: size,
-          fitAndroidIos: BoxFit.contain,
-          fitWeb: BoxFitWeb.contain,
-          onError: const Icon(Icons.error),
-        ),*/
       ),
     );
   }
 
-  // --- Contact Item Builder ---
   Widget _buildContactItem(BuildContext context, IconData icon, String text) {
     return Row(
       mainAxisSize: MainAxisSize.min,
