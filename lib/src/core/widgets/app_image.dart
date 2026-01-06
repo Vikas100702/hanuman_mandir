@@ -36,12 +36,7 @@ class AppImage extends StatelessWidget {
         width: width ?? 100,
         fitAndroidIos: fit,
         fitWeb: _mapBoxFitToWeb(fit),
-        onLoading: const Center(
-          // child: CircularProgressIndicator(
-          //   strokeWidth: 2,
-          //   color: Colors.yellow,
-          // ),
-        ),
+        onLoading: const SizedBox(),
         onError: const Icon(Icons.image_not_supported, color: Colors.red),
       );
     }
@@ -52,6 +47,9 @@ class AppImage extends StatelessWidget {
       width: width,
       height: height,
       fit: fit,
+      memCacheWidth: width != null ? (width! * 2).toInt() : null,
+      memCacheHeight: width != null ? (height! * 2).toInt() : null,
+
       placeholder: (context, url) => Center(
         child: SizedBox(
           width: 30,
