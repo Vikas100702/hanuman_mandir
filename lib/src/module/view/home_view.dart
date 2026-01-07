@@ -6,6 +6,7 @@ import 'package:hanuman_mandir/src/module/controller/home_controller.dart';
 import 'package:hanuman_mandir/src/module/view/home/about/about_view.dart';
 import 'package:hanuman_mandir/src/module/view/home/banner/banner_view.dart';
 import 'package:hanuman_mandir/src/module/view/home/community/community_view.dart';
+import 'package:hanuman_mandir/src/module/view/home/donation/donation_view.dart';
 import 'package:hanuman_mandir/src/module/view/home/footer/footer_view.dart';
 import 'package:hanuman_mandir/src/module/view/home/header/header_view.dart';
 import 'package:hanuman_mandir/src/module/view/home/sri_hanuman_mandir_services/sri_hanuman_mandir_services_view.dart';
@@ -75,7 +76,7 @@ class _HomeViewState extends State<HomeView> {
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/bg-banner2.jpg"),
-            fit: .cover
+            fit: .cover,
           ),
         ),
         child: Obx(() {
@@ -109,6 +110,11 @@ class _HomeViewState extends State<HomeView> {
                 ScrollAnimatedSection(
                   scrollController: _scrollController,
                   child: const AboutView(),
+                ),
+
+                ScrollAnimatedSection(
+                  scrollController: _scrollController,
+                  child: const DonationView(),
                 ),
 
                 ScrollAnimatedSection(
