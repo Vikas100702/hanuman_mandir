@@ -39,7 +39,8 @@ class BannerWidgets {
     double width,
     double height,
   ) {
-    return SizedBox(
+    return Container(
+      color: AppColors.appBackground,
       width: .infinity,
       height: .infinity,
       child: AppImage(
@@ -65,7 +66,8 @@ class BannerWidgets {
         return Row(
           children: [
             // Image Side
-            SizedBox(
+            Container(
+              color: AppColors.appBackground,
               width: halfWidth,
               height: fullHeight,
               child: AppImage(
@@ -104,7 +106,8 @@ class BannerWidgets {
         return Column(
           children: [
             // Image Section
-            SizedBox(
+            Container(
+              color: AppColors.appBackground,
               width: fullWidth,
               height: imageHeight,
               child: AppImage(
@@ -145,6 +148,7 @@ class BannerWidgets {
           opacity: 0.8,
           image: AssetImage("assets/images/banner_bg.png"),
         ),
+        color: AppColors.appBackground
       ),
       child: SingleChildScrollView(
         padding: EdgeInsets.symmetric(
