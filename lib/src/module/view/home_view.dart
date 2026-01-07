@@ -71,61 +71,67 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Obx(() {
-        // 1. Spiritual Loader
-        if (controller.isLoading.value) {
-          return const Center(
-            child: SpiritualLoader(size: 200),
-          );
-        }
-
-        // 2. Scroll Animated Content
-        return SingleChildScrollView(
-          controller: _scrollController,
-          physics: const ClampingScrollPhysics(),
-          child: Column(
-            children: [
-              // Header appears immediately or on slight scroll
-              ScrollAnimatedSection(
-                scrollController: _scrollController,
-                child: const HeaderView(),
-              ),
-
-              ScrollAnimatedSection(
-                scrollController: _scrollController,
-                child: const BannerView(),
-              ),
-
-              ScrollAnimatedSection(
-                scrollController: _scrollController,
-                child: const TodaysPanchangamView(),
-              ),
-
-              ScrollAnimatedSection(
-                scrollController: _scrollController,
-                child: const AboutView(),
-              ),
-
-              ScrollAnimatedSection(
-                scrollController: _scrollController,
-                child: const SriHanumanMandirServicesView(),
-              ),
-
-              ScrollAnimatedSection(
-                scrollController: _scrollController,
-                child: const CommunityView(),
-              ),
-
-              ScrollAnimatedSection(
-                scrollController: _scrollController,
-                // Small offset tweak for footer to ensure it triggers easily at bottom
-                offset: 20,
-                child: const FooterView(),
-              ),
-            ],
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/bg-banner2.jpg"),
+            fit: .cover
           ),
-        );
-      }),
+        ),
+        child: Obx(() {
+          // 1. Spiritual Loader
+          if (controller.isLoading.value) {
+            return const Center(child: SpiritualLoader(size: 200));
+          }
+
+          // 2. Scroll Animated Content
+          return SingleChildScrollView(
+            controller: _scrollController,
+            physics: const ClampingScrollPhysics(),
+            child: Column(
+              children: [
+                // Header appears immediately or on slight scroll
+                ScrollAnimatedSection(
+                  scrollController: _scrollController,
+                  child: const HeaderView(),
+                ),
+
+                ScrollAnimatedSection(
+                  scrollController: _scrollController,
+                  child: const BannerView(),
+                ),
+
+                ScrollAnimatedSection(
+                  scrollController: _scrollController,
+                  child: const TodaysPanchangamView(),
+                ),
+
+                ScrollAnimatedSection(
+                  scrollController: _scrollController,
+                  child: const AboutView(),
+                ),
+
+                ScrollAnimatedSection(
+                  scrollController: _scrollController,
+                  child: const SriHanumanMandirServicesView(),
+                ),
+
+                ScrollAnimatedSection(
+                  scrollController: _scrollController,
+                  child: const CommunityView(),
+                ),
+
+                ScrollAnimatedSection(
+                  scrollController: _scrollController,
+                  // Small offset tweak for footer to ensure it triggers easily at bottom
+                  offset: 20,
+                  child: const FooterView(),
+                ),
+              ],
+            ),
+          );
+        }),
+      ),
     );
   }
 }
